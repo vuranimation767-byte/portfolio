@@ -11,8 +11,7 @@
   <script>
     try {
       var savedTheme = localStorage.getItem("theme");
-      document.documentElement.dataset.theme =
-        savedTheme || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.dataset.theme = savedTheme || "light";
     } catch (error) {
       document.documentElement.dataset.theme = "light";
     }
