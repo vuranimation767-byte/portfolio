@@ -19,22 +19,5 @@
       "categoryId": ""
     }
   },
-  "projects": [
-    {
-      "title": "lifeclock",
-      "slug": "lifeclock",
-      "tagline": "ggujyjgjug",
-      "thumbnail": "",
-      "video": "",
-      "tags": [
-        "uyutuu"
-      ],
-      "github": "",
-      "download": "",
-      "featured": false,
-      "published": "2026-10-23",
-      "baseViews": 0,
-      "body": "## Overview\nWhat it does and who it's for.\n\n## Key mechanics\n- First mechanic\n- Second mechanic\n\n## Installation\n1. Drop the jar in `plugins/`.\n2. Restart the server."
-    }
-  ]
+  "projects": []
 }
