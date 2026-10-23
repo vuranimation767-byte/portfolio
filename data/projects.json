@@ -19,5 +19,26 @@
       "categoryId": ""
     }
   },
-  "projects": []
+  "projects": [
+    {
+      "title": "b0unty hunter plugin",
+      "slug": "b0unty-hunter-plugin",
+      "tagline": "Custom Minecraft plugin development for Paper & Spigot",
+      "thumbnail": "",
+      "video": "https://youtu.be/oKKMFkLyzlY",
+      "tags": [
+        "Paper 1.20+",
+        "Java 21",
+        "SQLite",
+        "GUI",
+        "Escrow"
+      ],
+      "github": "https://github.com/vuranimation767-byte/BountySystem",
+      "download": "https://github.com/vuranimation767-byte/BountySystem/releases/latest",
+      "featured": false,
+      "published": "2026-10-23",
+      "baseViews": 0,
+      "body": "## Overview\nBountySystem 0.1.0 is a high-performance Spigot/Paper plugin designed for physical item-based bounty hunting. Built with native diamond escrow, asynchronous GUI workflows, and full SQLite WAL audit logging.\n\n## Core Features\n- **Native Diamond Escrow:** Bounties deduct physical diamonds directly from inventory on placement and refund on cancellation.\n- **Async GUI Framework:** 250ms debounced double-click protection preventing duplicate placements or item theft.\n- **Private Chat Intercept:** Custom bounty amount entry is privately captured and never broadcasted to global server chat.\n- **8-Character Tracking IDs:** Unique alphanumeric IDs generated for precise list management and command cancellation (`/bounty cancel <id>`).\n- **Combat & Death Safeguards:** Bounties are awarded strictly on verified player kills. Environmental deaths (lava, falls, mobs) and self-claim exploits are automatically blocked.\n- **SQLite Audit Ledger:** Built-in WAL mode transaction ledger for complete tracking and administrative resolution.\n\n## Technical Stack\n- **Target Platform:** Paper / Spigot 1.20+\n- **Language:** Java 21\n- **Database:** SQLite (WAL Mode)\n- **Dependencies:** Standalone (No Vault required in native item mode)"
+    }
+  ]
 }
