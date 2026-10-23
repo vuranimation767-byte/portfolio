@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin — Portfolio</title>
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#fbfbfd">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script>
+    try {
+      var savedTheme = localStorage.getItem("theme");
+      document.documentElement.dataset.theme =
+        savedTheme || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    } catch (error) {
+      document.documentElement.dataset.theme = "light";
+    }
+  </script>
+</head>
+<body class="admin-page">
+  <a class="skip-link" href="#admin-main">Skip to editor</a>
+
+  <header class="admin-bar">
+    <div class="admin-bar-inner">
+      <a class="brand" href="index.html">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span>Admin</span>
+      </a>
+      <div class="admin-actions">
+        <span class="status-chip" id="dirty-chip" hidden>Unsaved</span>
+        <a class="btn btn-ghost btn-sm admin-view-site" href="index.html">View site</a>
+        <button class="btn btn-ghost btn-sm" id="settings-btn" type="button">Settings</button>
+        <button class="btn btn-ghost btn-sm" id="export-btn" type="button">Export JSON</button>
+        <button class="btn btn-primary btn-sm" id="publish-btn" type="button">Publish</button>
+        <button class="icon-btn theme-btn" type="button" data-theme-toggle aria-label="Switch theme">
+          <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.5 6.5 0 0 0 9.8 9.8Z"/></svg>
+        </button>
+        <button class="icon-btn" id="lock-btn" type="button" aria-label="Lock admin" title="Lock admin">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="gate" id="gate">
+    <form class="gate-card" id="gate-form">
+      <span class="brand-mark gate-mark" aria-hidden="true"></span>
+      <h1>Admin</h1>
+      <p class="gate-copy">Content editor for your portfolio. This passphrase hides the screen — publishing is protected by GitHub, not by this gate.</p>
+
+      <label for="gate-pass">Passphrase</label>
+      <input id="gate-pass" type="password" autocomplete="current-password" required autofocus>
+      <p class="gate-error" id="gate-error" role="alert" hidden>Wrong passphrase.</p>
+
+      <button class="btn btn-primary gate-submit" type="submit">Unlock</button>
+      <a class="gate-back" href="index.html">← Back to site</a>
+    </form>
+  </div>
+
+  <main class="admin-shell" id="admin-main" hidden>
+    <aside class="admin-side">
+      <div class="admin-side-head">
+        <h1>Projects <span class="side-count" id="project-count"></span></h1>
+        <button class="btn btn-ghost btn-sm" id="new-btn" type="button">New</button>
+      </div>
+
+      <div class="draft-banner" id="draft-banner" hidden>
+        <p>Restored unsaved draft.</p>
+        <button class="text-btn" id="discard-draft" type="button">Discard</button>
+      </div>
+
+      <div class="project-list" id="project-list">
+        <p class="side-note">Loading…</p>
+      </div>
+
+      <div class="admin-side-foot">
+        <button class="text-btn" id="import-btn" type="button">Import JSON…</button>
+        <input type="file" id="import-file" accept="application/json,.json" hidden>
+        <button class="text-btn" id="reload-btn" type="button">Reload from server</button>
+        <p class="side-note">Changes save to this browser until you export or publish.</p>
+      </div>
+    </aside>
+
+    <section class="admin-editor" id="editor" aria-label="Project editor">
+      <div class="empty editor-empty" id="editor-empty">
+        <p><strong>Select a project</strong><br>or create a new one to start editing.</p>
+      </div>
+
+      <form id="project-form" hidden novalidate>
+        <div class="editor-head">
+          <h2 id="form-title">Edit project</h2>
+          <button class="text-btn danger-text" id="delete-btn" type="button">Delete</button>
+        </div>
+
+        <div class="field">
+          <label for="f-title">Title</label>
+          <input id="f-title" name="title" type="text" maxlength="80" autocomplete="off" required>
+          <p class="field-error" data-error="title"></p>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="f-slug">Slug <span class="label-hint">URL</span></label>
+            <input id="f-slug" name="slug" type="text" maxlength="64" autocomplete="off" spellcheck="false" required>
+            <p class="field-error" data-error="slug"></p>
+          </div>
+          <div class="field">
+            <label for="f-published">Published</label>
+            <input id="f-published" name="published" type="date">
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="f-tagline">Tagline</label>
+          <input id="f-tagline" name="tagline" type="text" maxlength="140" required>
+          <p class="field-error" data-error="tagline"></p>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="f-tags">Tags <span class="label-hint">comma separated</span></label>
+            <input id="f-tags" name="tags" type="text" placeholder="Paper, Java, Utility">
+            <p class="field-error" data-error="tags"></p>
+          </div>
+          <div class="field">
+            <label for="f-baseviews">Starting views <span class="label-hint">optional</span></label>
+            <input id="f-baseviews" name="baseViews" type="number" min="0" step="1" value="0">
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="f-thumbnail">Thumbnail URL or path</label>
+          <div class="thumb-field">
+            <div class="thumb-preview">
+              <img id="thumb-preview-img" alt="" hidden>
+              <span id="thumb-preview-fallback">No image</span>
+            </div>
+            <div class="thumb-field-body">
+              <input id="f-thumbnail" name="thumbnail" type="text" placeholder="assets/thumbs/my-plugin.webp" autocomplete="off">
+              <p class="hint">1600×900 WebP, under 200 KB. Drop it in <code>assets/thumbs/</code>.</p>
+              <p class="field-error" data-error="thumbnail"></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="f-video">Showcase video <span class="label-hint">optional</span></label>
+          <input id="f-video" name="video" type="text" placeholder="https://youtu.be/… or …/demo.mp4" autocomplete="off">
+          <p class="video-hint" id="video-hint"></p>
+          <p class="field-error" data-error="video"></p>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="f-github">GitHub URL</label>
+            <input id="f-github" name="github" type="url" placeholder="https://github.com/…" autocomplete="off">
+            <p class="field-error" data-error="github"></p>
+          </div>
+          <div class="field">
+            <label for="f-download">Download URL</label>
+            <input id="f-download" name="download" type="url" placeholder="https://github.com/…/releases/latest" autocomplete="off">
+            <p class="field-error" data-error="download"></p>
+          </div>
+        </div>
+
+        <label class="check"><input type="checkbox" name="featured"> Feature on the gallery</label>
+
+        <div class="field">
+          <div class="field-label-row">
+            <label for="f-body">Documentation <span class="label-hint">Markdown</span></label>
+            <div class="tabs" role="tablist" aria-label="Documentation view">
+              <button class="tab" id="tab-write" type="button" role="tab" aria-selected="true" data-tab="write">Write</button>
+              <button class="tab" id="tab-preview" type="button" role="tab" aria-selected="false" data-tab="preview">Preview</button>
+            </div>
+          </div>
+          <textarea id="f-body" name="body" rows="12" spellcheck="false"></textarea>
+          <div class="markdown-preview prose" id="body-preview" hidden></div>
+          <p class="hint">Use <code>## Overview</code>, <code>## Key mechanics</code> and <code>## Installation</code> as a starting structure.</p>
+        </div>
+
+        <div class="editor-actions">
+          <button class="btn btn-primary" type="submit">Save to draft</button>
+          <span class="save-status" id="save-status" role="status"></span>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <dialog class="dialog" id="settings-dialog" aria-labelledby="settings-title">
+    <div class="dialog-card">
+      <div class="dialog-head">
+        <h2 id="settings-title">Publish settings</h2>
+        <button class="icon-btn" id="settings-close" type="button" aria-label="Close settings">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
+        </button>
+      </div>
+      <p class="settings-note">
+        Publishing commits <code>data/projects.json</code> to GitHub. Use a fine-grained token with
+        <strong>Contents: read and write</strong> on just this repository —
+        <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">create one</a>.
+        It is stored in this browser only, never in the site.
+      </p>
+
+      <div class="field">
+        <label for="s-repo">Repository</label>
+        <input id="s-repo" type="text" placeholder="owner/portfolio" autocomplete="off" spellcheck="false">
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="s-branch">Branch</label>
+          <input id="s-branch" type="text" placeholder="main" autocomplete="off" spellcheck="false">
+        </div>
+        <div class="field">
+          <label for="s-path">File path</label>
+          <input id="s-path" type="text" value="data/projects.json" autocomplete="off" spellcheck="false">
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="s-token">Fine-grained token</label>
+        <input id="s-token" type="password" autocomplete="off">
+        <p class="hint">Leave blank to export the JSON and commit it yourself.</p>
+      </div>
+
+      <div class="dialog-actions">
+        <button class="text-btn danger-text" id="forget-token" type="button">Forget token</button>
+        <span class="spacer"></span>
+        <button class="btn btn-ghost btn-sm" id="settings-cancel" type="button">Cancel</button>
+        <button class="btn btn-primary btn-sm" id="settings-save" type="button">Save settings</button>
+      </div>
+    </div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="assets/js/vendor/marked.min.js"></script>
+  <script type="module" src="assets/js/admin.js"></script>
+</body>
+</html>

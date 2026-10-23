@@ -1,0 +1,108 @@
+{
+  "version": 1,
+  "site": {
+    "name": "Alex Rivers",
+    "role": "Minecraft Plugin Developer",
+    "headline": "Fast, reliable plugins for Paper & Spigot servers.",
+    "tagline": "Server software that stays out of the way — no lag spikes, no bloated configs, no surprises at 3am.",
+    "about": "I've been writing Java for Minecraft servers since 2019. I focus on Paper-first plugins: async where it matters, minimal dependencies, and APIs other developers can build on. When I'm not patching a scheduler, I'm profiling one.",
+    "github": "https://github.com/vuranimation767-byte",
+    "features": {
+      "views": true,
+      "comments": true
+    },
+    "counterNamespace": "alexrivers.dev",
+    "giscus": {
+      "repo": "vuranimation767-byte/portfolio",
+      "repoId": "",
+      "category": "Announcements",
+      "categoryId": ""
+    }
+  },
+  "projects": [
+    {
+      "slug": "aetherqueue",
+      "title": "AetherQueue",
+      "tagline": "Async, priority-aware join queue for Paper networks.",
+      "thumbnail": "assets/thumbs/aetherqueue.svg",
+      "video": "https://www.youtube.com/watch?v=aqz-KE-bpKQ",
+      "tags": ["Paper", "Java", "Networking"],
+      "github": "https://github.com/yourusername/aetherqueue",
+      "download": "https://github.com/yourusername/aetherqueue/releases/latest",
+      "featured": true,
+      "published": "2026-06-12",
+      "baseViews": 2400,
+      "body": "## Overview\nAetherQueue replaces the default login queue with an async, priority-aware queue built for networks running multiple Paper servers behind Velocity. Players see their position and estimated wait in the action bar while the queue drains.\n\n## Key mechanics\n- **Async by default** — queue state is handled off the main thread, so a burst of joins never blocks gameplay.\n- **Priority passes** — permission-based tiers (`aetherqueue.priority.1`–`3`) with configurable weights.\n- **Reservation window** — slots are held for 90 seconds, preventing ghost entries when a client disconnects mid-join.\n- **Live position** — action bar updates once per second, throttled to four packets per player.\n\n## Installation\n1. Drop `AetherQueue.jar` into your proxy's `plugins/` folder.\n2. Restart once to generate `config.yml`, then set your queue size and server names.\n3. Run `/aq reload` after changes — no restart required.\n\nRequires Java 21 and Paper 1.21+. Anonymous metrics are opt-out."
+    },
+    {
+      "slug": "nexusbridge",
+      "title": "NexusBridge",
+      "tagline": "Presence, shared chat and server switches across a Velocity network.",
+      "thumbnail": "assets/thumbs/nexusbridge.svg",
+      "video": "https://mdn.github.io/shared-assets/videos/flower.mp4",
+      "tags": ["Paper", "Java", "Networking"],
+      "github": "https://github.com/yourusername/nexusbridge",
+      "download": "https://github.com/yourusername/nexusbridge/releases/latest",
+      "featured": true,
+      "published": "2026-04-03",
+      "baseViews": 1800,
+      "body": "## Overview\nNexusBridge keeps presence, shared chat and server-switch requests in sync across a Velocity network. It uses Redis pub/sub for messaging and a small in-memory fallback for single-server testing.\n\n## Key mechanics\n- **Zero-config discovery** — servers register themselves on startup and publish their current player counts.\n- **Redis-backed presence** — one key per player, so a crashed server drops its entries automatically via TTL.\n- **Safe transfers** — the destination must acknowledge a reservation before the proxy moves the player.\n- **Developer API** — `NexusBridge.send(player, \"survival\")` for plugin authors, plus `/bridge send` for staff.\n\n## Installation\n1. Install the bridge jar on Velocity and the companion jar on every Paper server.\n2. Set the same `redis.uri` and `network.id` in each `config.yml`.\n3. Restart, then run `/bridge status` to confirm discovery.\n\nRequires Paper 1.20.4+, Velocity 3.3+, Java 17+ and Redis 6+."
+    },
+    {
+      "slug": "pixelholo",
+      "title": "PixelHolo",
+      "tagline": "Packet-based floating displays with zero entity overhead.",
+      "thumbnail": "assets/thumbs/pixelholo.svg",
+      "video": "",
+      "tags": ["Paper", "Java", "Cosmetic"],
+      "github": "https://github.com/yourusername/pixelholo",
+      "download": "https://github.com/yourusername/pixelholo/releases/latest",
+      "featured": true,
+      "published": "2026-02-18",
+      "baseViews": 3100,
+      "body": "## Overview\nPixelHolo renders floating text, item and block displays without armor stands or per-tick entity updates. Displays are packed into a single packet batch per player and only re-sent when they change.\n\n## Key mechanics\n- **Packet-first** — text is sent as display entities, not armor stands, so there is no collision or AI cost.\n- **Per-player visibility** — show displays only to a permission group, world, or radius.\n- **Animations** — bob, spin and typewriter effects are evaluated server-side at 10 Hz, not every tick.\n- **In-game editor** — `/holo edit` opens a chat-driven editor with live preview.\n\n## Installation\n1. Drop `PixelHolo.jar` into `plugins/`.\n2. Run `/holo create welcome` and follow the prompts.\n3. Tune `update-interval` in `config.yml` if you run more than 200 displays.\n\nRequires Paper 1.20.6+ and Java 21. PlaceholderAPI is optional."
+    },
+    {
+      "slug": "wardeneye",
+      "title": "WardenEye",
+      "tagline": "Explainable movement and combat telemetry for staff review.",
+      "thumbnail": "assets/thumbs/wardeneye.svg",
+      "video": "",
+      "tags": ["Paper", "Java", "Security"],
+      "github": "https://github.com/yourusername/wardeneye",
+      "download": "https://github.com/yourusername/wardeneye/releases/latest",
+      "featured": false,
+      "published": "2025-11-27",
+      "baseViews": 900,
+      "body": "## Overview\nWardenEye is a lightweight telemetry layer for detecting impossible movement, reach and autoclicker patterns. It does not ban anyone — it flags, explains and hands the evidence to your staff.\n\n## Key mechanics\n- **Explainable flags** — every alert includes the sample window and the maths behind it.\n- **Low overhead** — checks run every other tick and sample only players in combat.\n- **Staff review queue** — `/eye review` shows recent flags with replay-style coordinates.\n- **Discord webhook** — batched alerts, grouped by player, with a configurable threshold.\n\n## Installation\n1. Drop `WardenEye.jar` into `plugins/`.\n2. Set your webhook URL in `config.yml` (optional).\n3. Run `/eye reload` and watch the first hour of flags before tuning thresholds.\n\nRequires Paper 1.21+ and Java 21. WardenEye is not a replacement for a full anticheat."
+    },
+    {
+      "slug": "craftbench",
+      "title": "CraftBench",
+      "tagline": "A GUI recipe editor that saves without a restart.",
+      "thumbnail": "assets/thumbs/craftbench.svg",
+      "video": "",
+      "tags": ["Paper", "Java", "Utility"],
+      "github": "https://github.com/yourusername/craftbench",
+      "download": "https://github.com/yourusername/craftbench/releases/latest",
+      "featured": false,
+      "published": "2025-09-14",
+      "baseViews": 1500,
+      "body": "## Overview\nCraftBench is a recipe editor for server owners who are tired of hand-writing YAML. Build shaped and shapeless recipes in a chest GUI, preview the result, and save without restarting.\n\n## Key mechanics\n- **GUI editor** — drag ingredients into a 3×3 grid, set the output and save.\n- **Namespace-aware** — recipes are stored under your own namespace so datapacks and other plugins never collide.\n- **Live reload** — `/bench reload` rebuilds the recipe registry in place.\n- **Import** — paste an existing recipe JSON and CraftBench converts it to an editable grid.\n\n## Installation\n1. Drop `CraftBench.jar` into `plugins/`.\n2. Run `/bench` to open the editor.\n3. Review `recipes/` before deploying to production.\n\nRequires Paper 1.20.4+ and Java 17+. Does not modify vanilla recipes unless you ask it to."
+    },
+    {
+      "slug": "paperbench",
+      "title": "PaperBench",
+      "tagline": "JMH benchmarks for Paper plugins, without booting a server.",
+      "thumbnail": "assets/thumbs/paperbench.svg",
+      "video": "",
+      "tags": ["Java", "Tooling"],
+      "github": "https://github.com/yourusername/paperbench",
+      "download": "https://github.com/yourusername/paperbench",
+      "featured": false,
+      "published": "2025-07-02",
+      "baseViews": 640,
+      "body": "## Overview\nPaperBench is a JMH harness for benchmarking Paper plugin code without booting a full server. It ships with fixtures for the event bus, scheduler and item meta operations, plus a tiny report viewer.\n\n## Key mechanics\n- **Realistic fixtures** — mocked Paper registries and a deterministic tick loop.\n- **Warmup-aware** — JMH handles warmup, forks and percentile reporting.\n- **Regression gate** — fail CI when a benchmark regresses by more than a configurable percentage.\n- **Report viewer** — `paperbench report` turns JMH JSON into a single static HTML file.\n\n## Installation\n```bash\ngit clone https://github.com/yourusername/paperbench\ncd paperbench\n./gradlew jmh\n```\n\nAdd `paperbench` as a `testImplementation` dependency to benchmark your own plugin.\n\nRequires JDK 21 and Gradle 8+. Built for Paper 1.21, works with Spigot APIs."
+    }
+  ]
+}

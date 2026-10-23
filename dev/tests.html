@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Core self-checks</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <style>
+    .test-page { max-width: 820px; padding: 48px 0 96px; }
+    .test-page h1 { margin-top: 10px; font-size: 28px; letter-spacing: -.03em; }
+    .test-page .lede { margin-top: 8px; font-size: 14px; }
+    .test-summary { margin-top: 24px; font-size: 14px; font-weight: 600; }
+    .test-summary.bad { color: var(--danger); }
+    .test-list { display: grid; gap: 6px; margin-top: 14px; padding: 0; list-style: none; }
+    .test { display: flex; gap: 10px; align-items: baseline; padding: 9px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--card); font-size: 13px; }
+    .test .mark { font-weight: 700; }
+    .test.pass .mark { color: var(--accent); }
+    .test.fail { border-color: var(--danger); }
+    .test.fail .mark, .test.fail p { color: var(--danger); }
+    .test p { margin-top: 2px; font-family: var(--mono); font-size: 11.5px; overflow-wrap: anywhere; }
+  </style>
+</head>
+<body>
+  <main class="wrap test-page">
+    <p class="eyebrow"><span class="dot" aria-hidden="true"></span>Dev only</p>
+    <h1>Core self-checks</h1>
+    <p class="lede muted">Pure functions behind the gallery, detail page and admin validation. Open this over HTTP, not <code>file://</code>.</p>
+    <p class="test-summary" id="summary">Running…</p>
+    <ul class="test-list" id="results"></ul>
+  </main>
+
+  <script type="module">
+    import {
+      escapeHtml,
+      formatViews,
+      initials,
+      parseVideo,
+      safeUrl,
+      slugify,
+      validateProject,
+    } from "../assets/js/core.js";
+
+    const results = document.querySelector("#results");
+    const summary = document.querySelector("#summary");
+    let passed = 0;
+    let failed = 0;
+
+    function test(name, fn) {
+      try {
+        fn();
+        passed += 1;
+        addResult(name, true);
+      } catch (error) {
+        failed += 1;
+        addResult(name, false, error.message);
+      }
+    }
+
+    function addResult(name, ok, message = "") {
+      const item = document.createElement("li");
+      item.className = `test ${ok ? "pass" : "fail"}`;
+      item.innerHTML = `<span class="mark">${ok ? "PASS" : "FAIL"}</span><div>${escapeHtml(name)}${message ? `<p>${escapeHtml(message)}</p>` : ""}</div>`;
+      results.appendChild(item);
+    }
+
+    function eq(actual, expected) {
+      const a = JSON.stringify(actual);
+      const b = JSON.stringify(expected);
+      if (a !== b) throw new Error(`expected ${b}, got ${a}`);
+    }
+
+    function ok(value, message = "expected a truthy value") {
+      if (!value) throw new Error(message);
+    }
+
+    const project = {
+      title: "Test Plugin",
+      tagline: "A plugin for testing.",
+      slug: "test-plugin",
+      tags: ["Paper"],
+      video: "",
+      thumbnail: "assets/thumbs/test.webp",
+      github: "https://github.com/example/test",
+      download: "https://github.com/example/test/releases/latest",
+    };
+
+    test("slugify strips punctuation and spaces", () => {
+      eq(slugify("Aether Queue!"), "aether-queue");
+      eq(slugify("  Pixel_Holo 2  "), "pixel-holo-2");
+      eq(slugify("Café Plugin"), "cafe-plugin");
+    });
+
+    test("escapeHtml covers all five characters", () => {
+      eq(escapeHtml(`<a href="x">'&'</a>`), "&lt;a href=&quot;x&quot;&gt;&#39;&amp;&#39;&lt;/a&gt;");
+    });
+
+    test("initials handles one word, two words and empty", () => {
+      eq(initials("AetherQueue"), "A");
+      eq(initials("Aether Queue"), "AQ");
+      eq(initials(""), "·");
+    });
+
+    test("formatViews compacts thousands and millions", () => {
+      eq(formatViews(0), "0 views");
+      eq(formatViews(1), "1 view");
+      eq(formatViews(999), "999 views");
+      eq(formatViews(1000), "1k views");
+      eq(formatViews(1200), "1.2k views");
+      eq(formatViews(1200000), "1.2m views");
+    });
+
+    test("safeUrl rejects javascript: and allows http(s)", () => {
+      eq(safeUrl("javascript:alert(1)"), null);
+      eq(safeUrl("data:text/html,hi"), null);
+      eq(safeUrl("https://example.com/x").href, "https://example.com/x");
+      eq(safeUrl("http://example.com").protocol, "http:");
+    });
+
+    test("parseVideo recognises YouTube watch, short and shorts URLs", () => {
+      eq(parseVideo("https://www.youtube.com/watch?v=aqz-KE-bpKQ").id, "aqz-KE-bpKQ");
+      eq(parseVideo("https://youtu.be/aqz-KE-bpKQ?t=10").id, "aqz-KE-bpKQ");
+      eq(parseVideo("https://youtube.com/shorts/aqz-KE-bpKQ").id, "aqz-KE-bpKQ");
+      eq(parseVideo("https://youtube.com/watch?feature=share&v=aqz-KE-bpKQ").id, "aqz-KE-bpKQ");
+    });
+
+    test("parseVideo recognises Vimeo and direct video files", () => {
+      eq(parseVideo("https://vimeo.com/76979871").type, "vimeo");
+      eq(parseVideo("https://example.com/demo.mp4").type, "file");
+      eq(parseVideo("https://example.com/demo.webm?x=1").type, "file");
+      eq(parseVideo("https://example.com/page"), null);
+    });
+
+    test("validateProject accepts a complete project", () => {
+      eq(validateProject(project), {});
+    });
+
+    test("validateProject catches required fields and bad URLs", () => {
+      const errors = validateProject({
+        title: "",
+        tagline: "",
+        slug: "Bad Slug",
+        tags: [],
+        video: "https://example.com/page",
+        github: "javascript:alert(1)",
+        download: "",
+        thumbnail: "",
+      });
+      ok(errors.title);
+      ok(errors.tagline);
+      ok(errors.slug);
+      ok(errors.tags);
+      ok(errors.video);
+      ok(errors.github);
+    });
+
+    test("validateProject rejects duplicate slugs", () => {
+      const errors = validateProject(project, [{ slug: "test-plugin" }]);
+      ok(errors.slug);
+    });
+
+    summary.textContent = `${passed} passed, ${failed} failed`;
+    summary.classList.toggle("bad", failed > 0);
+  </script>
+</body>
+</html>

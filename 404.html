@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Page not found — Alex Rivers</title>
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#fbfbfd">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script>
+    try {
+      var savedTheme = localStorage.getItem("theme");
+      document.documentElement.dataset.theme =
+        savedTheme || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    } catch (error) {
+      document.documentElement.dataset.theme = "light";
+    }
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="index.html">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span>Alex Rivers</span>
+      </a>
+      <nav class="nav" aria-label="Primary">
+        <a class="nav-link" href="index.html#work">Work</a>
+        <a class="nav-link" href="index.html#about">About</a>
+        <button class="icon-btn theme-btn" type="button" data-theme-toggle aria-label="Switch theme">
+          <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.5 6.5 0 0 0 9.8 9.8Z"/></svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="notfound">
+      <p class="eyebrow"><span class="dot" aria-hidden="true"></span>404</p>
+      <h1>This page doesn't exist.</h1>
+      <p>The link may be old, or the project may have been renamed.</p>
+      <a class="btn btn-primary" href="index.html#work">Back to all work</a>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-inner">
+      <p>© <span data-year>2026</span> Alex Rivers</p>
+      <p><a href="index.html">Home</a></p>
+    </div>
+  </footer>
+
+  <script type="module">
+    import { initTheme } from "./assets/js/core.js";
+    initTheme();
+    document.querySelectorAll("[data-year]").forEach((element) => {
+      element.textContent = String(new Date().getFullYear());
+    });
+  </script>
+</body>
+</html>
