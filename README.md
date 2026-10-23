@@ -2,6 +2,8 @@
 
 A clean, fast portfolio for Minecraft plugins and dev projects. Plain HTML, CSS and JavaScript — no framework, no build step, no server. It deploys straight to GitHub Pages and includes a browser-based content manager.
 
+**Live:** [vuranimation767-byte.github.io/portfolio](https://vuranimation767-byte.github.io/portfolio/)
+
 > **Demo content:** the name “Alex Rivers”, GitHub links, thumbnails and demo videos are placeholders. Replace them in `data/projects.json` and `assets/thumbs/` before sharing the site.
 
 ## What's included
@@ -36,7 +38,7 @@ Project links use `project.html?p=slug`, which works on any static host and need
 
 ## Admin panel
 
-Open `/admin.html` after deploying (for example `https://username.github.io/portfolio/admin.html`). GitHub Pages has no extensionless routing, so use the `.html` path — `/admin` alone will 404.
+Open `/admin.html` after deploying (for example `https://vuranimation767-byte.github.io/portfolio/admin.html`). GitHub Pages has no extensionless routing, so use the `.html` path — `/admin` alone will 404.
 
 **Default passphrase:** `minecraft`
 
