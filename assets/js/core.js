@@ -10,7 +10,8 @@ let dataPromise = null;
  */
 export function getData({ fresh = false } = {}) {
   if (!dataPromise || fresh) {
-    dataPromise = fetch(DATA_URL, { cache: fresh ? "no-store" : "default" }).then((res) => {
+    // GitHub Pages caches JSON for 10 minutes; a unique query gets the latest commit.
+    dataPromise = fetch(`${DATA_URL}?v=${Date.now()}`, { cache: "no-store" }).then((res) => {
       if (!res.ok) throw new Error(`Could not load ${DATA_URL} (HTTP ${res.status})`);
       return res.json();
     });

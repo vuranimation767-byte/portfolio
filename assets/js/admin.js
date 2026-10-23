@@ -35,6 +35,7 @@ const draftBanner = $("#draft-banner");
 const settingsDialog = $("#settings-dialog");
 const toastElement = $("#toast");
 const publishBtn = $("#publish-btn");
+const publishFormBtn = $("#publish-form-btn");
 const exportBtn = $("#export-btn");
 const thumbnailImage = $("#thumb-preview-img");
 const thumbnailFallback = $("#thumb-preview-fallback");
@@ -78,9 +79,15 @@ function removeStorage(key) {
 }
 
 function readPublishConfig() {
-  const fallback = { repo: "", branch: "main", path: "data/projects.json", token: "" };
+  const fallback = { repo: "vuranimation767-byte/portfolio", branch: "main", path: "data/projects.json", token: "" };
   try {
-    return Object.assign(fallback, JSON.parse(readStorage(PUBLISH_KEY) || "{}"));
+    const saved = JSON.parse(readStorage(PUBLISH_KEY) || "{}");
+    return {
+      repo: saved.repo || fallback.repo,
+      branch: saved.branch || fallback.branch,
+      path: saved.path || fallback.path,
+      token: saved.token || "",
+    };
   } catch {
     return fallback;
   }
@@ -368,9 +375,9 @@ function save({ silent = false } = {}) {
   form.elements.title.value = project.title;
   formTitle.textContent = project.title;
   deleteBtn.hidden = false;
-  saveStatus.textContent = "Saved locally";
+  saveStatus.textContent = "Saved locally — not live";
 
-  if (!silent) toast("Saved to local draft");
+  if (!silent) toast("Saved locally — use Publish live to update the site.");
   return true;
 }
 
@@ -588,9 +595,12 @@ async function githubError(response) {
 function setBusy(value) {
   busy = value;
   publishBtn.disabled = value;
+  publishFormBtn.disabled = value;
   exportBtn.disabled = value;
   publishBtn.textContent = value ? "Publishing…" : "Publish";
+  publishFormBtn.textContent = value ? "Publishing…" : "Publish live";
   publishBtn.setAttribute("aria-busy", String(value));
+  publishFormBtn.setAttribute("aria-busy", String(value));
 }
 
 async function publish() {
@@ -602,9 +612,14 @@ async function publish() {
   }
 
   const config = readPublishConfig();
-  if (!config.repo || !config.token) {
+  if (!config.repo) {
     openSettings();
-    toast("Add a repository and token to publish.", true);
+    toast("Add the repository and a token to publish.", true);
+    return;
+  }
+  if (!config.token) {
+    openSettings();
+    toast("Add a GitHub token in Settings to publish.", true);
     return;
   }
 
@@ -651,8 +666,8 @@ async function publish() {
     serverState = structuredClone(state);
     removeStorage(DRAFT_KEY);
     draftBanner.hidden = true;
-    saveStatus.textContent = `Published${commit ? ` · ${commit}` : ""}`;
-    toast(commit ? `Published to GitHub · ${commit}` : "Published to GitHub");
+    saveStatus.textContent = `Live on GitHub${commit ? ` · ${commit}` : ""}`;
+    toast(commit ? `Published — site updates in about a minute (${commit})` : "Published — site updates in about a minute");
   } catch (error) {
     saveStatus.textContent = "";
     toast(error.message, true);
@@ -714,6 +729,7 @@ function wire() {
   $("#new-btn").addEventListener("click", startNew);
   $("#export-btn").addEventListener("click", downloadJson);
   publishBtn.addEventListener("click", publish);
+  publishFormBtn.addEventListener("click", publish);
   $("#settings-btn").addEventListener("click", openSettings);
   $("#settings-close").addEventListener("click", () => settingsDialog.close());
   $("#settings-cancel").addEventListener("click", () => settingsDialog.close());

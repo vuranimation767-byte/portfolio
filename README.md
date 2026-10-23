@@ -59,9 +59,9 @@ Replace `ADMIN_HASH` at the top of `assets/js/admin.js` with the output. Changin
 
 ### Saving and publishing
 
-- **Save to draft** writes to `localStorage` in that browser. Refresh restores the draft.
+- **Save draft** writes to `localStorage` in that browser. Refresh restores the draft. It does not change the live site.
+- **Publish live** saves the open form and commits `data/projects.json` to GitHub. The gallery fetches a cache-busted copy, so the new content appears once GitHub Pages finishes deploying — usually under a minute.
 - **Export JSON** downloads `projects.json`. Commit it to `data/projects.json`.
-- **Publish** commits the file to GitHub from the browser.
 
 For publishing, create a **fine-grained personal access token** with **Contents: read and write** on just the portfolio repository. Enter the repo (`owner/repo`), branch, file path and token in **Settings**. The token is stored in this browser's `localStorage` and is never written into the site. Revoke it on GitHub if a device is lost, or use **Forget token**. Use the **Lock** button to end an admin session.
 

@@ -79,7 +79,7 @@
         <button class="text-btn" id="import-btn" type="button">Import JSON…</button>
         <input type="file" id="import-file" accept="application/json,.json" hidden>
         <button class="text-btn" id="reload-btn" type="button">Reload from server</button>
-        <p class="side-note">Changes save to this browser until you export or publish.</p>
+        <p class="side-note">Drafts stay in this browser. Use <strong>Publish live</strong> to update the GitHub site.</p>
       </div>
     </aside>
 
@@ -181,7 +181,8 @@
         </div>
 
         <div class="editor-actions">
-          <button class="btn btn-primary" type="submit">Save to draft</button>
+          <button class="btn btn-ghost" type="submit">Save draft</button>
+          <button class="btn btn-primary" id="publish-form-btn" type="button">Publish live</button>
           <span class="save-status" id="save-status" role="status"></span>
         </div>
       </form>
