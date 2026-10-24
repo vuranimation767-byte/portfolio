@@ -1,4 +1,4 @@
-import { escapeHtml, formatViews, getData, getViewCount, initials } from "./core.js";
+import { escapeHtml, formatViews, getData, getViewCount, initials, safeUrl } from "./core.js";
 import { initSite } from "./site.js";
 
 const state = {
@@ -13,11 +13,14 @@ const count = document.querySelector("#count");
 const empty = document.querySelector("#empty");
 const chips = document.querySelector("#chips");
 const search = document.querySelector("#q");
+const frameImg = document.querySelector("#frame-img");
+const frameMono = document.querySelector("#frame-mono");
 
 const eyeIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="2.5"/></svg>`;
 
 let searchTimer = null;
 let viewObserver = null;
+let frameObserver = null;
 
 function sortedProjects(projects) {
   return [...projects].sort(
@@ -27,14 +30,10 @@ function sortedProjects(projects) {
   );
 }
 
-function cardMarkup(project) {
+function nameMarkup(project, index) {
   const tags = (project.tags || [])
     .map((tag) => `<li class="tag">${escapeHtml(tag)}</li>`)
     .join("");
-
-  const thumb = project.thumbnail
-    ? `<img src="${escapeHtml(project.thumbnail)}" alt="" loading="lazy" decoding="async" width="1600" height="900">`
-    : "";
 
   const viewsEnabled = state.site.features?.views !== false;
   const baseViews = Number(project.baseViews) || 0;
@@ -43,20 +42,14 @@ function cardMarkup(project) {
     : "";
 
   return `
-    <a class="card" href="project.html?p=${encodeURIComponent(project.slug)}">
-      <div class="thumb">
-        <span class="thumb-fallback" aria-hidden="true">${escapeHtml(initials(project.title))}</span>
-        ${thumb}
-      </div>
-      <div class="card-body">
-        <div class="card-top">
-          <h3>${escapeHtml(project.title)}</h3>
-          ${views}
-        </div>
-        <p class="tagline">${escapeHtml(project.tagline)}</p>
+    <article class="name-entry" data-slug="${escapeHtml(project.slug)}" style="animation-delay:${index * 60}ms">
+      <h3 class="name-title"><a href="project.html?p=${encodeURIComponent(project.slug)}">${escapeHtml(project.title)}</a></h3>
+      <div class="name-meta">
+        ${views}
         <ul class="tags">${tags}</ul>
       </div>
-    </a>`;
+      <p class="name-line">${escapeHtml(project.tagline)}</p>
+    </article>`;
 }
 
 function renderChips() {
@@ -124,9 +117,40 @@ function observeViews() {
   grid.querySelectorAll("[data-views]").forEach((element) => viewObserver.observe(element));
 }
 
+/* The held square: swap its picture as each name crosses the viewport centre. */
+function setFrame(project) {
+  if (!project) return;
+  const url = project.thumbnail ? safeUrl(project.thumbnail) : null;
+  if (url) {
+    frameImg.hidden = true;
+    frameImg.src = url.href;
+    frameImg.hidden = false;
+    frameMono.hidden = true;
+  } else {
+    frameImg.hidden = true;
+    frameImg.removeAttribute("src");
+    frameMono.textContent = initials(project.title);
+    frameMono.hidden = false;
+  }
+}
+
+function observeFrame() {
+  frameObserver?.disconnect();
+  const bySlug = new Map(state.projects.map((project) => [project.slug, project]));
+  frameObserver = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) setFrame(bySlug.get(entry.target.dataset.slug));
+      }
+    },
+    { rootMargin: "-45% 0px -45% 0px" }
+  );
+  grid.querySelectorAll(".name-entry").forEach((element) => frameObserver.observe(element));
+}
+
 function render() {
   const projects = filteredProjects();
-  grid.innerHTML = projects.map(cardMarkup).join("");
+  grid.innerHTML = projects.map(nameMarkup).join("");
   count.textContent = `${projects.length} project${projects.length === 1 ? "" : "s"}`;
   empty.hidden = projects.length !== 0;
 
@@ -134,12 +158,14 @@ function render() {
     chip.setAttribute("aria-pressed", String(chip.dataset.tag === state.tag));
   });
 
+  setFrame(projects[0]);
+  observeFrame();
   observeViews();
 }
 
 function showLoadError(message) {
   grid.innerHTML = `
-    <div class="empty span-all">
+    <div class="empty">
       <p><strong>Could not load projects.</strong><br>${escapeHtml(message)}</p>
       <p class="hint">If you opened this file directly, serve it over HTTP instead: <code>npx serve .</code></p>
     </div>`;
@@ -196,14 +222,11 @@ function wire() {
     search.focus();
   });
 
-  grid.addEventListener(
-    "error",
-    (event) => {
-      const target = event.target;
-      if (target instanceof HTMLImageElement && target.closest(".thumb")) target.remove();
-    },
-    true
-  );
+  frameImg.addEventListener("error", () => {
+    frameImg.hidden = true;
+    frameImg.removeAttribute("src");
+    frameMono.hidden = false;
+  });
 }
 
 async function boot() {

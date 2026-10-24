@@ -19,12 +19,12 @@
     .test.pass .mark { color: var(--accent); }
     .test.fail { border-color: var(--danger); }
     .test.fail .mark, .test.fail p { color: var(--danger); }
-    .test p { margin-top: 2px; font-family: var(--mono); font-size: 11.5px; overflow-wrap: anywhere; }
+    .test p { margin-top: 2px; font-family: var(--mono); font-size: 11.5px; overflow-wrap: anywhere; } /* taste-skill-ignore: literal test output */
   </style>
 </head>
 <body>
   <main class="wrap test-page">
-    <p class="eyebrow"><span class="dot" aria-hidden="true"></span>Dev only</p>
+    <p class="muted">Dev only</p>
     <h1>Core self-checks</h1>
     <p class="lede muted">Pure functions behind the gallery, detail page and admin validation. Open this over HTTP, not <code>file://</code>.</p>
     <p class="test-summary" id="summary">Running…</p>

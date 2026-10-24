@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 430" font-family="'Segoe UI', Arial, sans-serif" role="img" aria-label="Shapeless crafting recipe for the Revive Totem: one Totem of Undying, one Golden Apple, one Diamond and one Blaze Rod in any arrangement">
+  <defs>
+    <linearGradient id="totemBody" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e8c837"/><stop offset="1" stop-color="#c79a1e"/>
+    </linearGradient>
+    <radialGradient id="gapple" cx="0.35" cy="0.3" r="1">
+      <stop offset="0" stop-color="#ffe07a"/><stop offset="0.55" stop-color="#f7c034"/><stop offset="1" stop-color="#d99a14"/>
+    </radialGradient>
+    <radialGradient id="revAura" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#a15bff" stop-opacity="0.45"/>
+      <stop offset="0.75" stop-color="#a15bff" stop-opacity="0.12"/>
+      <stop offset="1" stop-color="#a15bff" stop-opacity="0"/>
+    </radialGradient>
+
+    <g id="ic-totem">
+      <rect x="-15" y="-24" width="30" height="16" rx="7" fill="#8a5a1e" stroke="#5c3a10" stroke-width="2"/>
+      <rect x="-15" y="-10" width="30" height="34" rx="7" fill="url(#totemBody)" stroke="#7a5c12" stroke-width="2"/>
+      <circle cx="-6.5" cy="2" r="3.6" fill="#12d460" stroke="#0a7c39" stroke-width="1.5"/>
+      <circle cx="6.5" cy="2" r="3.6" fill="#12d460" stroke="#0a7c39" stroke-width="1.5"/>
+      <circle cx="-7.5" cy="0.8" r="1.1" fill="#eaffe9"/>
+      <circle cx="5.5" cy="0.8" r="1.1" fill="#eaffe9"/>
+      <rect x="-5" y="13" width="10" height="3.5" rx="1.75" fill="#8a5a1e"/>
+    </g>
+
+    <g id="ic-gapple">
+      <rect x="-1.5" y="-19" width="3" height="8" rx="1.5" fill="#7a4a21"/>
+      <ellipse cx="7" cy="-15" rx="6.5" ry="3.2" fill="#3fa34d" transform="rotate(-28 7 -15)"/>
+      <circle cx="0" cy="2" r="15" fill="url(#gapple)" stroke="#a67310" stroke-width="2"/>
+      <path d="M -8 -6 A 10 10 0 0 1 -1 -12" fill="none" stroke="#fff" stroke-opacity="0.65" stroke-width="3" stroke-linecap="round"/>
+    </g>
+
+    <g id="ic-diamond">
+      <polygon points="0,-16 14,-2 8,16 -8,16 -14,-2" fill="#5fe8e2" stroke="#1e9e97" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M -14 -2 L 14 -2 M 0 -16 L -4 -2 L 0 16 L 4 -2 Z" fill="none" stroke="#b9fffb" stroke-opacity="0.7" stroke-width="1.6"/>
+    </g>
+
+    <g id="ic-rod" transform="rotate(28)">
+      <rect x="-4" y="-21" width="8" height="42" rx="4" fill="#ffbe2e" stroke="#b97a00" stroke-width="2"/>
+      <rect x="-4" y="-13" width="8" height="5" fill="#e08a00" opacity="0.85"/>
+      <rect x="-4" y="-0.5" width="8" height="5" fill="#e08a00" opacity="0.85"/>
+      <rect x="-4" y="12" width="8" height="5" fill="#e08a00" opacity="0.85"/>
+    </g>
+  </defs>
+
+  <!-- header chips -->
+  <rect x="30" y="26" width="132" height="22" rx="11" fill="#241a2e" stroke="#4a3760"/>
+  <text x="96" y="41" text-anchor="middle" font-size="11" font-weight="700" fill="#cda6ff" letter-spacing="2">CRAFTING</text>
+  <rect x="570" y="26" width="180" height="22" rx="11" fill="#241a2e" stroke="#4a3760"/>
+  <text x="660" y="41" text-anchor="middle" font-size="11" font-weight="700" fill="#cda6ff" letter-spacing="2">SHAPELESS · 1× EACH</text>
+
+  <!-- crafting panel -->
+  <rect x="30" y="62" width="312" height="312" rx="10" fill="#b5ada3" stroke="#57534d" stroke-width="2"/>
+  <line x1="31" y1="63" x2="341" y2="63" stroke="#dcd5ca" stroke-width="2"/>
+  <line x1="342" y1="63" x2="342" y2="373" stroke="#5f594f" stroke-width="2"/>
+
+  <!-- slot helper: bevelled empty slot -->
+  <g id="slots">
+    <rect x="82"  y="114" width="64" height="64" fill="#8b8b8b" stroke="#4a453f" stroke-width="1.5" rx="3"/>
+    <line x1="83" y1="115" x2="145" y2="115" stroke="#ffffff" stroke-opacity="0.35"/>
+    <rect x="154" y="114" width="64" height="64" fill="#8b8b8b" stroke="#4a453f" stroke-width="1.5" rx="3"/>
+    <line x1="155" y1="115" x2="217" y2="115" stroke="#ffffff" stroke-opacity="0.35"/>
+    <rect x="226" y="114" width="64" height="64" fill="#8b8b8b" stroke="#4a453f" stroke-width="1.5" rx="3"/>
+    <line x1="227" y1="115" x2="289" y2="115" stroke="#ffffff" stroke-opacity="0.35"/>
+    <rect x="82"  y="186" width="64" height="64" fill="#8b8b8b" stroke="#4a453f" stroke-width="1.5" rx="3"/>
+    <line x1="83" y1="187" x2="145" y2="187" stroke="#ffffff" stroke-opacity="0.35"/>
+    <rect x="154" y="186" width="64" height="64" fill="#8b8b8b" stroke="#4a453f" stroke-width="1.5" rx="3"/>
+    <line x1="155" y1="187" x2="217" y2="187" stroke="#ffffff" stroke-opacity="0.35"/>
+    <rect x="226" y="186" width="64" height="64" fill="#8b8b8b" stroke="#4a453f" stroke-width="1.5" rx="3"/>
+    <line x1="227" y1="187" x2="289" y2="187" stroke="#ffffff" stroke-opacity="0.35"/>
+    <rect x="82"  y="258" width="64" height="64" fill="#8b8b8b" stroke="#4a453f" stroke-width="1.5" rx="3"/>
+    <line x1="83" y1="259" x2="145" y2="259" stroke="#ffffff" stroke-opacity="0.35"/>
+    <rect x="154" y="258" width="64" height="64" fill="#8b8b8b" stroke="#4a453f" stroke-width="1.5" rx="3"/>
+    <line x1="155" y1="259" x2="217" y2="259" stroke="#ffffff" stroke-opacity="0.35"/>
+    <rect x="226" y="258" width="64" height="64" fill="#8b8b8b" stroke="#4a453f" stroke-width="1.5" rx="3"/>
+    <line x1="227" y1="259" x2="289" y2="259" stroke="#ffffff" stroke-opacity="0.35"/>
+  </g>
+
+  <!-- ingredients -->
+  <use href="#ic-totem"   transform="translate(114 146) scale(1.05)"/>
+  <use href="#ic-rod"     transform="translate(258 146) scale(1.05)"/>
+  <use href="#ic-gapple"  transform="translate(186 218) scale(1.05)"/>
+  <use href="#ic-diamond" transform="translate(258 290) scale(1.05)"/>
+
+  <!-- shapeless dashed frame + caption -->
+  <rect x="74" y="106" width="220" height="224" rx="12" fill="none" stroke="#a15bff" stroke-opacity="0.75" stroke-width="2" stroke-dasharray="7 6"/>
+  <text x="184" y="348" text-anchor="middle" font-size="11" fill="#8f8a9f">shapeless — any of the 9 arrangements works</text>
+
+  <!-- arrow -->
+  <rect x="352" y="212" width="44" height="12" rx="2" fill="#8f8a7f"/>
+  <polygon points="396,200 416,218 396,236" fill="#8f8a7f"/>
+
+  <!-- result -->
+  <rect x="436" y="136" width="90" height="20" rx="10" fill="#2a2135" stroke="#4a3760"/>
+  <text x="481" y="150" text-anchor="middle" font-size="10.5" font-weight="700" fill="#e7c96a" letter-spacing="2">OUTPUT ×1</text>
+  <rect x="436" y="163" width="110" height="110" fill="#8b8b8b" stroke="#433e38" stroke-width="2" rx="4"/>
+  <line x1="438" y1="165" x2="544" y2="165" stroke="#ffffff" stroke-opacity="0.35"/>
+  <circle cx="491" cy="218" r="54" fill="url(#revAura)"/>
+  <circle cx="491" cy="218" r="44" fill="none" stroke="#a15bff" stroke-opacity="0.8" stroke-width="2" stroke-dasharray="5 7"/>
+  <use href="#ic-totem" transform="translate(491.5 219) scale(1.35)"/>
+  <!-- sparkles -->
+  <g fill="#f2c744">
+    <rect x="456" y="184" width="7" height="7" rx="1.5" transform="rotate(15 459 187)"/>
+    <rect x="522" y="196" width="5" height="5" rx="1.2" transform="rotate(-12 524 198)"/>
+    <rect x="470" y="252" width="5" height="5" rx="1.2" transform="rotate(8 472 254)"/>
+  </g>
+  <text x="491" y="300" text-anchor="middle" font-size="13" font-weight="700" fill="#f2c744" letter-spacing="1">REVIVE TOTEM</text>
+
+  <!-- recipe list -->
+  <use href="#ic-totem"   transform="translate(592 88) scale(0.72)"/>
+  <text x="622" y="93" font-size="13.5" fill="#d9d5e6"><tspan fill="#f2c744" font-weight="700">1×</tspan> Totem of Undying</text>
+  <use href="#ic-gapple"  transform="translate(592 140) scale(0.72)"/>
+  <text x="622" y="145" font-size="13.5" fill="#d9d5e6"><tspan fill="#f2c744" font-weight="700">1×</tspan> Golden Apple</text>
+  <use href="#ic-diamond" transform="translate(592 192) scale(0.72)"/>
+  <text x="622" y="197" font-size="13.5" fill="#d9d5e6"><tspan fill="#f2c744" font-weight="700">1×</tspan> Diamond</text>
+  <use href="#ic-rod"     transform="translate(592 244) scale(0.72)"/>
+  <text x="622" y="249" font-size="13.5" fill="#d9d5e6"><tspan fill="#f2c744" font-weight="700">1×</tspan> Blaze Rod</text>
+
+  <!-- cost card -->
+  <rect x="570" y="282" width="210" height="92" rx="12" fill="#1d1114" stroke="#5a2630"/>
+  <text x="675" y="306" text-anchor="middle" font-size="10" letter-spacing="2" fill="#b5939a">SACRIFICE COST ON USE</text>
+  <text x="675" y="332" text-anchor="middle" font-size="26" font-weight="800" fill="#ff6b5e">− 5 HOURS</text>
+  <text x="675" y="358" text-anchor="middle" font-size="11" fill="#a08a8f">requires ≥ 5:00:00 remaining on your clock</text>
+</svg>

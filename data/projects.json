@@ -1,17 +1,17 @@
 {
   "version": 1,
   "site": {
-    "name": "Alex Rivers",
+    "name": "Block Builder",
     "role": "Minecraft Plugin Developer",
     "headline": "Fast, reliable plugins for Paper & Spigot servers.",
     "tagline": "Server software that stays out of the way — no lag spikes, no bloated configs, no surprises at 3am.",
-    "about": "I've been writing Java for Minecraft servers since 2019. I focus on Paper-first plugins: async where it matters, minimal dependencies, and APIs other developers can build on. When I'm not patching a scheduler, I'm profiling one.",
+    "about": "Block Builder is a solo plugin studio for Minecraft servers. I build Paper-first game systems — bounty economies, time-based SMPs, hardened GUIs — backed by crash-safe storage, validated configs and real tests. If a player can break it at 3am, the ledger still has to balance.",
     "github": "https://github.com/vuranimation767-byte",
     "features": {
       "views": true,
       "comments": true
     },
-    "counterNamespace": "alexrivers.dev",
+    "counterNamespace": "blockbuilder",
     "giscus": {
       "repo": "vuranimation767-byte/portfolio",
       "repoId": "",
@@ -21,24 +21,32 @@
   },
   "projects": [
     {
-      "title": "b0unty hunter plugin",
-      "slug": "b0unty-hunter-plugin",
-      "tagline": "Custom Minecraft plugin development for Paper & Spigot",
-      "thumbnail": "",
+      "title": "BountySystem",
+      "slug": "bountysystem",
+      "tagline": "Escrowed player bounties with a full GUI — place a head, hunt it, claim the diamonds.",
+      "thumbnail": "assets/thumbs/bountysystem.jpg",
       "video": "https://youtu.be/oKKMFkLyzlY",
-      "tags": [
-        "Paper 1.20+",
-        "Java 21",
-        "SQLite",
-        "GUI",
-        "Escrow"
-      ],
+      "tags": ["Paper 26.3", "Java 25", "GUI", "Escrow", "SQLite", "Vault"],
       "github": "https://github.com/vuranimation767-byte/BountySystem",
-      "download": "https://github.com/vuranimation767-byte/BountySystem/releases/latest",
-      "featured": false,
-      "published": "2026-10-23",
+      "download": "",
+      "featured": true,
+      "published": true,
       "baseViews": 0,
-      "body": "## Overview\nBountySystem 0.1.0 is a high-performance Spigot/Paper plugin designed for physical item-based bounty hunting. Built with native diamond escrow, asynchronous GUI workflows, and full SQLite WAL audit logging.\n\n## Core Features\n- **Native Diamond Escrow:** Bounties deduct physical diamonds directly from inventory on placement and refund on cancellation.\n- **Async GUI Framework:** 250ms debounced double-click protection preventing duplicate placements or item theft.\n- **Private Chat Intercept:** Custom bounty amount entry is privately captured and never broadcasted to global server chat.\n- **8-Character Tracking IDs:** Unique alphanumeric IDs generated for precise list management and command cancellation (`/bounty cancel <id>`).\n- **Combat & Death Safeguards:** Bounties are awarded strictly on verified player kills. Environmental deaths (lava, falls, mobs) and self-claim exploits are automatically blocked.\n- **SQLite Audit Ledger:** Built-in WAL mode transaction ledger for complete tracking and administrative resolution.\n\n## Technical Stack\n- **Target Platform:** Paper / Spigot 1.20+\n- **Language:** Java 21\n- **Database:** SQLite (WAL Mode)\n- **Dependencies:** Standalone (No Vault required in native item mode)"
+      "body": "BountySystem turns any server into a bounty economy. Players escrow real value — diamonds from a chest vault or server money through Vault — place a bounty on an online player's head, and the killer claims it. Every coin moves through a crash-safe SQLite ledger, so a restart mid-payout never eats a diamond.\n\n## Features\n\n- **Seven-menu GUI** — board, target detail, placement flow, custom-amount book, my-bounties manager, all reachable with `/bounty`.\n- **Physical escrow** — diamonds held in a chest vault, or Vault economy. What is promised is what gets paid.\n- **Crash-safe ledger** — every escrow, refund and payout is an audited SQLite WAL transaction. Stuck entries can be resolved by hand.\n- **Hardened menus** — identity-checked InventoryHolders, every interaction cancelled, sessions die on close or quit. The GUI never moves money itself.\n- **Config that refuses to break** — the whole file is validated on load and on `/bounty reload`; an invalid edit leaves the last good config running.\n\n## Commands\n\n| Command | What it does | Permission |\n| --- | --- | --- |\n| `/bounty` | Opens the bounty board GUI | `bounty.use` |\n| `/bounty list` | Lists every active bounty with its id | `bounty.use` |\n| `/bounty place <player> <amount>` | Escrows and places a bounty on an online player | `bounty.use` |\n| `/bounty cancel <id>` | Cancels one of your bounties — an 8-character id prefix works | `bounty.use` |\n| `/bounty reload` | Validates and applies a changed config | `bounty.admin` |\n| `/bounty admin ledger` | Lists open ledger entries needing review | `bounty.admin` |\n| `/bounty admin bounties` | Every bounty record ever stored, with status | `bounty.admin` |\n| `/bounty admin resolve <id> refund\\|reject` | Unsticks a ledger entry: refund pays now, reject closes it | `bounty.admin` |\n\nEvery subcommand has tab completion — online targets for `place`, your own ids for `cancel`, and the full `admin` tree for staff.\n\n## Install\n\nBuild with `gradlew build`, take `build/libs/BountySystem-0.1.0.jar` into your `plugins/` folder, restart. First run creates `plugins/BountySystem/bounties.db` and the default config. GitHub Releases are coming soon — until then the repo is the source of truth.\n\nPaper 26.3 · Java 25 · 58 tests"
+    },
+    {
+      "title": "LifeClock",
+      "slug": "lifeclock",
+      "tagline": "An SMP where every player lives on borrowed time — steal it in PvP, lose it to death, revive with a sacrifice.",
+      "thumbnail": "",
+      "video": "",
+      "tags": ["Paper 1.21", "Java 21", "PvP", "Gameplay", "BossBar"],
+      "github": "https://github.com/vuranimation767-byte/life-clock-smp-website",
+      "download": "",
+      "featured": false,
+      "published": true,
+      "baseViews": 0,
+      "body": "LifeClock is the rules plugin behind Life-Clock SMP: a server where every player lives on borrowed time. Your remaining life shows as a BossBar; kill a player and you take a piece of their clock; die and yours shrinks. Run out and you become a ghost — coming back costs a Revive Totem and five hours of someone's sacrifice.\n\nBuilt for the Life-Clock SMP (client: DjEoii) on Paper 1.21.11.\n\n## Features\n\n- **Time as health** — a BossBar HUD counts every player's remaining life, with green, yellow and red heartbeat states as the clock runs low.\n- **PvP time economy** — killing a player transfers a slice of their time to yours. Hunting is profitable; hiding is safe.\n- **Death costs time** — every death shortens the clock, and respawning doesn't reset the debt.\n- **Revive Totem** — crafted shapelessly; activating it opens the ghost-selection GUI and costs five hours of sacrifice.\n- **Ghost revives** — a 27-slot chest GUI lists the ghosts that can be brought back, with compass search.\n\n## Commands\n\n| Command | What it does |\n| --- | --- |\n| `/lifeclock add <player> <time>` | Adds time to a player's clock |\n| `/lifeclock remove <player> <time>` | Removes time from a player's clock |\n| `/lifeclock set <player> <time>` | Sets the clock directly |\n| `/lifeclock check <player>` | Shows a player's remaining time |\n| `/lifeclock revive <player>` | Revives a ghost |\n| `/withdraw <time>` | Withdraws time from your own clock into a Time Clock item — `/withdraw` alone opens the selection menu |\n\n`/lifeclock` requires `lifeclock.admin` (op by default); `/withdraw` is for every player.\n\n## Showcase\n\nDocs, HUD states and GUI mocks live in the [life-clock-smp-website](https://github.com/vuranimation767-byte/life-clock-smp-website) repo — the plugin source is private."
     }
   ]
 }

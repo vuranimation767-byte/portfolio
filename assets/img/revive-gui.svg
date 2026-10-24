@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 310" font-family="'Segoe UI', Arial, sans-serif" role="img" aria-label="Revive selection chest GUI mock: 27 slots with player heads of spectating ghosts, hover tooltip with death data, and a compass search icon">
+  <defs>
+    <style>
+      .slotleg { paint-order: stroke; stroke: #0d0212; stroke-width: 3px; }
+    </style>
+    <!-- 8x8 pixel head, colored via CSS custom properties per use -->
+    <g id="hd">
+      <!-- hair top + sides -->
+      <rect x="0" y="0" width="8" height="2" fill="var(--hair)"/>
+      <rect x="0" y="2" width="1" height="1" fill="var(--hair)"/>
+      <rect x="7" y="2" width="1" height="1" fill="var(--hair)"/>
+      <!-- skin -->
+      <rect x="1" y="2" width="6" height="1" fill="var(--skin)"/>
+      <rect x="0" y="3" width="8" height="5" fill="var(--skin)"/>
+      <!-- eyes: white outer, iris inner -->
+      <rect x="2" y="3" width="1" height="1" fill="#f4f4f4"/>
+      <rect x="5" y="3" width="1" height="1" fill="#f4f4f4"/>
+      <rect x="3" y="3" width="1" height="1" fill="var(--iris)"/>
+      <rect x="4" y="3" width="1" height="1" fill="var(--iris)"/>
+      <!-- mouth -->
+      <rect x="3" y="5" width="2" height="1" fill="#000" opacity="0.30"/>
+    </g>
+  </defs>
+
+  <!-- chest panel -->
+  <rect x="20" y="20" width="760" height="264" rx="10" fill="#c6c6c6" stroke="#3f3f3f" stroke-width="2"/>
+  <line x1="22" y1="23" x2="778" y2="23" stroke="#ffffff" stroke-opacity="0.6" stroke-width="2"/>
+  <line x1="23" y1="22" x2="23" y2="280" stroke="#ffffff" stroke-opacity="0.45" stroke-width="2"/>
+  <line x1="30" y1="76" x2="770" y2="76" stroke="#a29b91" stroke-width="2"/>
+
+  <!-- title (dark purple, centered) -->
+  <text x="400" y="54" text-anchor="middle" font-size="18" font-weight="800" fill="#43157a" letter-spacing="0.5">Select Ghost to Revive</text>
+
+  <!-- compass search slot -->
+  <g>
+    <rect x="716" y="30" width="44" height="44" fill="#8b8b8b" stroke="#57534a" stroke-width="1.5" rx="3"/>
+    <line x1="717" y1="31" x2="759" y2="31" stroke="#ffffff" stroke-opacity="0.4"/>
+    <circle cx="738" cy="52" r="17" fill="#2b2b33" stroke="#14141a" stroke-width="2.5"/>
+    <circle cx="738" cy="52" r="12.5" fill="#cfc8ba"/>
+    <polygon points="738,43 734,53 742,53" fill="#c43737"/>
+    <polygon points="738,61 734,51 742,51" fill="#e7e0d2"/>
+    <circle cx="738" cy="52" r="2" fill="#17171d"/>
+  </g>
+  <text x="738" y="90" text-anchor="middle" font-size="9" font-weight="700" fill="#5a5346" letter-spacing="1">SEARCH</text>
+
+  <!-- slots 9x3 (54px, gap 6) -->
+  <g fill="#8b8b8b" stroke="#57534a" stroke-width="1.5">
+    <!-- row 1 -->
+    <rect x="133" y="90" width="54" height="54" rx="3"/><rect x="193" y="90" width="54" height="54" rx="3"/><rect x="253" y="90" width="54" height="54" rx="3"/><rect x="313" y="90" width="54" height="54" rx="3"/><rect x="373" y="90" width="54" height="54" rx="3"/><rect x="433" y="90" width="54" height="54" rx="3"/><rect x="493" y="90" width="54" height="54" rx="3"/><rect x="553" y="90" width="54" height="54" rx="3"/><rect x="613" y="90" width="54" height="54" rx="3"/>
+    <!-- row 2 -->
+    <rect x="133" y="150" width="54" height="54" rx="3"/><rect x="193" y="150" width="54" height="54" rx="3"/><rect x="253" y="150" width="54" height="54" rx="3"/><rect x="313" y="150" width="54" height="54" rx="3"/><rect x="373" y="150" width="54" height="54" rx="3"/><rect x="433" y="150" width="54" height="54" rx="3"/><rect x="493" y="150" width="54" height="54" rx="3"/><rect x="553" y="150" width="54" height="54" rx="3"/><rect x="613" y="150" width="54" height="54" rx="3"/>
+    <!-- row 3 -->
+    <rect x="133" y="210" width="54" height="54" rx="3"/><rect x="193" y="210" width="54" height="54" rx="3"/><rect x="253" y="210" width="54" height="54" rx="3"/><rect x="313" y="210" width="54" height="54" rx="3"/><rect x="373" y="210" width="54" height="54" rx="3"/><rect x="433" y="210" width="54" height="54" rx="3"/><rect x="493" y="210" width="54" height="54" rx="3"/><rect x="553" y="210" width="54" height="54" rx="3"/><rect x="613" y="210" width="54" height="54" rx="3"/>
+  </g>
+  <!-- slot top-edge highlights -->
+  <g stroke="#ffffff" stroke-opacity="0.35">
+    <line x1="134" y1="91" x2="666" y2="91"/><line x1="134" y1="151" x2="666" y2="151"/><line x1="134" y1="211" x2="666" y2="211"/>
+  </g>
+
+  <!-- hovered slot highlight -->
+  <rect x="193" y="90" width="54" height="54" rx="3" fill="none" stroke="#ffd75e" stroke-width="2.5"/>
+
+  <!-- ghost heads (SkullMeta) — row 1, c0..c7 -->
+  <use href="#hd" transform="translate(141 100) scale(4.9)"  style="--hair:#2e7d43;--skin:#e8b389;--iris:#1a1a4e"/>
+  <use href="#hd" transform="translate(201 100) scale(4.9)"  style="--hair:#8a5a2e;--skin:#e8b389;--iris:#274472"/>
+  <use href="#hd" transform="translate(261 100) scale(4.9)"  style="--hair:#c1401f;--skin:#eab38b;--iris:#33303a"/>
+  <use href="#hd" transform="translate(321 100) scale(4.9)"  style="--hair:#1c1c22;--skin:#d99e72;--iris:#7a1f1f"/>
+  <use href="#hd" transform="translate(381 100) scale(4.9)"  style="--hair:#2fae9b;--skin:#f2c7a1;--iris:#2f6f4f"/>
+  <use href="#hd" transform="translate(441 100) scale(4.9)"  style="--hair:#c8c4dd;--skin:#f2c7a1;--iris:#4b3f9e"/>
+  <use href="#hd" transform="translate(501 100) scale(4.9)"  style="--hair:#6b46c1;--skin:#c68e5f;--iris:#1f1f3d"/>
+  <use href="#hd" transform="translate(561 100) scale(4.9)"  style="--hair:#d9a014;--skin:#f2c7a1;--iris:#7a3d1f"/>
+
+  <!-- hovered tooltip -->
+  <g>
+    <rect x="256" y="150" width="256" height="112" rx="6" fill="#150a1a" fill-opacity="0.96" stroke="#6a3bd0" stroke-width="1.5"/>
+    <rect x="257.5" y="151.5" width="253" height="109" rx="5" fill="none" stroke="#2a0863" stroke-width="1"/>
+    <text class="slotleg" x="272" y="178" font-size="15" font-weight="700" fill="#ffffff">Driftwood_</text>
+    <text class="slotleg" x="272" y="202" font-size="12.5" fill="#b9a0ff">⏱ 00h 00m 00s — clock expired</text>
+    <text class="slotleg" x="272" y="224" font-size="12.5" fill="#b9a0ff">💀 Felled by Pyro_Jack</text>
+    <text class="slotleg" x="272" y="246" font-size="12.5" fill="#ffd75e">▸ Click to revive — user pays 5:00:00</text>
+  </g>
+
+  <text x="20" y="302" font-size="11" fill="#6f6a80">27-slot chest GUI · tiles refresh live — ghost heads appear the instant a clock hits 00:00:00</text>
+</svg>
