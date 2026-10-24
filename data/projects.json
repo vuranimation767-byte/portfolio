@@ -26,7 +26,14 @@
       "tagline": "Escrowed player bounties with a full GUI — place a head, hunt it, claim the diamonds.",
       "thumbnail": "assets/thumbs/bountysystem.jpg",
       "video": "https://youtu.be/oKKMFkLyzlY",
-      "tags": ["Paper 26.3", "Java 25", "GUI", "Escrow", "SQLite", "Vault"],
+      "tags": [
+        "Paper 26.3",
+        "Java 25",
+        "GUI",
+        "Escrow",
+        "SQLite",
+        "Vault"
+      ],
       "github": "https://github.com/vuranimation767-byte/BountySystem",
       "download": "https://github.com/vuranimation767-byte/BountySystem/releases/download/v0.1.0/BountySystem-0.1.0.jar",
       "featured": true,
@@ -39,14 +46,20 @@
       "slug": "lifeclock",
       "tagline": "An SMP where every player lives on borrowed time — steal it in PvP, lose it to death, revive with a sacrifice.",
       "thumbnail": "assets/thumbs/lifeclock.jpg",
-      "video": "",
-      "tags": ["Paper 1.21", "Java 21", "PvP", "Gameplay", "BossBar"],
+      "video": "https://youtu.be/Aixmv1donOg?si=VF7wsezCTHO8Tfls",
+      "tags": [
+        "Paper 1.21",
+        "Java 21",
+        "PvP",
+        "Gameplay",
+        "BossBar"
+      ],
       "github": "https://github.com/vuranimation767-byte/life-clock-smp-website",
       "download": "",
       "featured": false,
-      "published": true,
+      "published": "",
       "baseViews": 0,
-      "body": "LifeClock is the rules plugin behind Life-Clock SMP: a server where every player lives on borrowed time. Your remaining life shows as a BossBar; kill a player and you take a piece of their clock; die and yours shrinks. Run out and you become a ghost — coming back costs a Revive Totem and five hours of someone's sacrifice.\n\nBuilt for the Life-Clock SMP (client: DjEoii) on Paper 1.21.11.\n\n## Features\n\n- **Time as health** — a BossBar HUD counts every player's remaining life, with green, yellow and red heartbeat states as the clock runs low.\n- **PvP time economy** — killing a player transfers a slice of their time to yours. Hunting is profitable; hiding is safe.\n- **Death costs time** — every death shortens the clock, and respawning doesn't reset the debt.\n- **Revive Totem** — crafted shapelessly; activating it opens the ghost-selection GUI and costs five hours of sacrifice.\n- **Ghost revives** — a 27-slot chest GUI lists the ghosts that can be brought back, with compass search.\n\n## Commands\n\n| Command | What it does |\n| --- | --- |\n| `/lifeclock add <player> <time>` | Adds time to a player's clock |\n| `/lifeclock remove <player> <time>` | Removes time from a player's clock |\n| `/lifeclock set <player> <time>` | Sets the clock directly |\n| `/lifeclock check <player>` | Shows a player's remaining time |\n| `/lifeclock revive <player>` | Revives a ghost |\n| `/withdraw <time>` | Withdraws time from your own clock into a Time Clock item — `/withdraw` alone opens the selection menu |\n\n`/lifeclock` requires `lifeclock.admin` (op by default); `/withdraw` is for every player.\n\n## Showcase\n\nDocs, HUD states and GUI mocks live in the [life-clock-smp-website](https://github.com/vuranimation767-byte/life-clock-smp-website) repo — the plugin source is private."
+      "body": "⏳ LifeClock SMP — Time-Based Survival Plugin\nOverview:\n\nA fully customizable Paper/Spigot mechanics plugin that introduces a high-stakes time-economy system. Every player spawns with 24 hours of total survival time. The clock ticks down continuously while online, making time the ultimate currency and survival resource—the last player standing wins!\n\nKey Technical Features:\n\nKill & Death Mechanics: Killing an opponent extracts a portion of their remaining time and awards it directly to the killer.\n\nTime Withdrawal & Physical Items: Players can execute custom commands or UI actions to withdraw time into physical, tradable time tokens/items.\n\nCustom Recipe & Unban System: When a player's timer hits zero, they are automatically eliminated/banned. Teammates can craft a custom, high-tier revival item via a specialized crafting recipe to unban fallen players.\n\nOptimized GUI & Visual Indicators: Displays live time-trackers via clean Inventory GUIs, ActionBars, and Scoreboards using Paper's Adventure API.\n\nPerformance-First Architecture: Built with efficient scheduled tasks, custom NBT/PersistentDataContainer tags, and asynchronous data saving to prevent server lag.\n\nTech Stack: Java 17+, Paper/Spigot API, PersistentDataContainer, Task Scheduler, Adventure API.\n\n## Commands\n\n| Command | What it does |\n| --- | --- |\n| `/lifeclock add <player> <time>` | Adds time to a player's clock |\n| `/lifeclock remove <player> <time>` | Removes time from a player's clock |\n| `/lifeclock set <player> <time>` | Sets the clock directly |\n| `/lifeclock check <player>` | Shows a player's remaining time |\n| `/lifeclock revive <player>` | Revives a ghost |\n| `/withdraw <time>` | Withdraws time from your own clock into a Time Clock item — `/withdraw` alone opens the selection menu |\n\n`/lifeclock` requires `lifeclock.admin` (op by default); `/withdraw` is for every player.\n\n## Showcase\n\nDocs, HUD states and GUI mocks live in the [life-clock-smp-website](https://github.com/vuranimation767-byte/life-clock-smp-website) repo — the plugin source is private."
     }
   ]
 }
