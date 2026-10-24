@@ -38,7 +38,7 @@
       "title": "LifeClock",
       "slug": "lifeclock",
       "tagline": "An SMP where every player lives on borrowed time — steal it in PvP, lose it to death, revive with a sacrifice.",
-      "thumbnail": "",
+      "thumbnail": "assets/thumbs/lifeclock.jpg",
       "video": "",
       "tags": ["Paper 1.21", "Java 21", "PvP", "Gameplay", "BossBar"],
       "github": "https://github.com/vuranimation767-byte/life-clock-smp-website",
