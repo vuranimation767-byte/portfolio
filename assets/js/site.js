@@ -1,11 +1,14 @@
 import { getData, initTheme, safeUrl } from "./core.js";
 
 /**
- * Theme, footer year, site copy and entrance motion. Static HTML is the
- * fallback, so the page still reads correctly if projects.json fails to load.
+ * Shared public-page setup: theme, mobile menu, footer year, site copy and
+ * scroll reveal. Static HTML is the fallback, so the page still reads
+ * correctly if projects.json fails to load.
  */
 export async function initSite() {
   initTheme();
+  initMenu();
+  initReveal();
 
   document.querySelectorAll("[data-year]").forEach((element) => {
     element.textContent = String(new Date().getFullYear());
@@ -31,48 +34,59 @@ export async function initSite() {
   } catch {
     /* keep the copy already in the HTML */
   }
-
-  initMotion();
 }
 
-function initMotion() {
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+function initMenu() {
+  const button = document.querySelector(".menu-btn");
+  const menu = document.querySelector("#mobile-menu");
+  if (!button || !menu) return;
 
-  const header = document.querySelector(".site-header");
-  const monument = document.querySelector("[data-monument]");
-  let lastY = window.scrollY;
-  let ticking = false;
-
-  const onScroll = () => {
-    if (ticking) return;
-    ticking = true;
-    requestAnimationFrame(() => {
-      const y = window.scrollY;
-      if (header) {
-        if (y > 140 && y > lastY) header.classList.add("is-hidden");
-        else header.classList.remove("is-hidden");
-      }
-      // The wordmark completes the last few percent of its rise as you scroll.
-      if (monument) {
-        const t = Math.min(1, Math.max(0, y / (window.innerHeight * 0.5)));
-        monument.style.setProperty("--monument-scale", String(0.94 + t * 0.06));
-      }
-      lastY = y;
-      ticking = false;
-    });
+  const setOpen = (open) => {
+    button.setAttribute("aria-expanded", String(open));
+    button.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    menu.hidden = !open;
   };
-  window.addEventListener("scroll", onScroll, { passive: true });
-  onScroll();
 
-  const reveal = new IntersectionObserver(
+  button.addEventListener("click", () => setOpen(button.getAttribute("aria-expanded") !== "true"));
+
+  menu.addEventListener("click", (event) => {
+    if (event.target.closest("a")) setOpen(false);
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !menu.hidden) {
+      setOpen(false);
+      button.focus();
+    }
+  });
+
+  document.addEventListener("click", (event) => {
+    if (menu.hidden) return;
+    if (event.target.closest("#mobile-menu") || event.target.closest(".menu-btn")) return;
+    setOpen(false);
+  });
+}
+
+function initReveal() {
+  const items = document.querySelectorAll(".reveal");
+  if (!items.length) return;
+
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduce || !("IntersectionObserver" in window)) {
+    items.forEach((element) => element.classList.add("is-in"));
+    return;
+  }
+
+  const observer = new IntersectionObserver(
     (entries) => {
       for (const entry of entries) {
         if (!entry.isIntersecting) continue;
-        entry.target.classList.add("in");
-        reveal.unobserve(entry.target);
+        entry.target.classList.add("is-in");
+        observer.unobserve(entry.target);
       }
     },
-    { rootMargin: "0px 0px -12% 0px" }
+    { rootMargin: "0px 0px -10% 0px" }
   );
-  document.querySelectorAll(".about-intro, .plugin-block, .footer-monument, .plugin-media figure").forEach((element) => reveal.observe(element));
+
+  items.forEach((element) => observer.observe(element));
 }

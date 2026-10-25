@@ -3,13 +3,13 @@
   "site": {
     "name": "Block Builder",
     "role": "Minecraft Plugin Developer",
-    "headline": "Fast, reliable plugins for Paper & Spigot servers.",
-    "tagline": "Server software that stays out of the way — no lag spikes, no bloated configs, no surprises at 3am.",
-    "about": "Block Builder is a solo plugin studio for Minecraft servers. I build Paper-first game systems — bounty economies, time-based SMPs, hardened GUIs — backed by crash-safe storage, validated configs and real tests. If a player can break it at 3am, the ledger still has to balance.",
+    "headline": "Minecraft plugins, shown in action.",
+    "tagline": "Two Paper plugins: a crash-safe bounty economy and an SMP built on borrowed time. Watch them run, then read how they work.",
+    "about": "Block Builder is a solo plugin studio for Minecraft servers. I build Paper-first game systems — bounty economies, time-based SMPs, hardened GUIs — with crash-safe storage, validated configs and tests behind the money paths. If a player can break it at 3am, the ledger still has to balance.",
     "github": "https://github.com/vuranimation767-byte",
     "features": {
-      "views": true,
-      "comments": true
+      "views": false,
+      "comments": false
     },
     "counterNamespace": "blockbuilder",
     "giscus": {
@@ -23,7 +23,7 @@
     {
       "title": "BountySystem",
       "slug": "bountysystem",
-      "tagline": "Escrowed player bounties with a full GUI — place a head, hunt it, claim the diamonds.",
+      "tagline": "Escrowed player bounties with a full GUI — post a bounty, hunt the target, claim the reward.",
       "thumbnail": "assets/thumbs/bountysystem.jpg",
       "video": "https://youtu.be/oKKMFkLyzlY",
       "tags": [
@@ -37,29 +37,29 @@
       "github": "https://github.com/vuranimation767-byte/BountySystem",
       "download": "https://github.com/vuranimation767-byte/BountySystem/releases/download/v0.1.0/BountySystem-0.1.0.jar",
       "featured": true,
-      "published": true,
+      "published": "2026-10-24",
       "baseViews": 0,
-      "body": "BountySystem turns any server into a bounty economy. Players escrow real value — diamonds from a chest vault or server money through Vault — place a bounty on an online player's head, and the killer claims it. Every coin moves through a crash-safe SQLite ledger, so a restart mid-payout never eats a diamond.\n\n## Features\n\n- **Seven-menu GUI** — board, target detail, placement flow, custom-amount book, my-bounties manager, all reachable with `/bounty`.\n- **Physical escrow** — diamonds held in a chest vault, or Vault economy. What is promised is what gets paid.\n- **Crash-safe ledger** — every escrow, refund and payout is an audited SQLite WAL transaction. Stuck entries can be resolved by hand.\n- **Hardened menus** — identity-checked InventoryHolders, every interaction cancelled, sessions die on close or quit. The GUI never moves money itself.\n- **Config that refuses to break** — the whole file is validated on load and on `/bounty reload`; an invalid edit leaves the last good config running.\n\n## Commands\n\n| Command | What it does | Permission |\n| --- | --- | --- |\n| `/bounty` | Opens the bounty board GUI | `bounty.use` |\n| `/bounty list` | Lists every active bounty with its id | `bounty.use` |\n| `/bounty place <player> <amount>` | Escrows and places a bounty on an online player | `bounty.use` |\n| `/bounty cancel <id>` | Cancels one of your bounties — an 8-character id prefix works | `bounty.use` |\n| `/bounty reload` | Validates and applies a changed config | `bounty.admin` |\n| `/bounty admin ledger` | Lists open ledger entries needing review | `bounty.admin` |\n| `/bounty admin bounties` | Every bounty record ever stored, with status | `bounty.admin` |\n| `/bounty admin resolve <id> refund\\|reject` | Unsticks a ledger entry: refund pays now, reject closes it | `bounty.admin` |\n\nEvery subcommand has tab completion — online targets for `place`, your own ids for `cancel`, and the full `admin` tree for staff.\n\n## Install\n\nBuild with `gradlew build`, take `build/libs/BountySystem-0.1.0.jar` into your `plugins/` folder, restart. First run creates `plugins/BountySystem/bounties.db` and the default config. GitHub Releases are coming soon — until then the repo is the source of truth.\n\nPaper 26.3 · Java 25 · 58 tests"
+      "body": "BountySystem turns any server into a bounty economy. Players escrow real value — diamonds from a chest vault or server money through Vault — place a bounty on an online player's head, and the killer claims it. Every coin moves through a crash-safe SQLite ledger, so a restart mid-payout never eats a diamond.\n\n## Features\n\n- **Seven-menu GUI** — board, browse, target detail, target picker, reward amount, confirm, and my bounties — all reachable with `/bounty`.\n- **Physical escrow** — diamonds held in a chest vault, or Vault economy. What is promised is what gets paid.\n- **Crash-safe ledger** — every escrow, refund and payout is an audited SQLite WAL transaction. Stuck entries can be resolved by hand.\n- **Hardened menus** — identity-checked InventoryHolders, every interaction cancelled, sessions die on close or quit. The GUI never moves money itself.\n- **Config that refuses to break** — the whole file is validated on load and on `/bounty reload`; an invalid edit leaves the last good config running.\n\n## Commands\n\n| Command | What it does | Permission |\n| --- | --- | --- |\n| `/bounty` | Opens the bounty board GUI | `bounty.use` |\n| `/bounty list` | Lists every active bounty with its id | `bounty.use` |\n| `/bounty place <player> <amount>` | Escrows and places a bounty on an online player | `bounty.use` |\n| `/bounty cancel <id>` | Cancels one of your bounties — an 8-character id prefix works | `bounty.use` |\n| `/bounty reload` | Validates and applies a changed config | `bounty.admin` |\n| `/bounty admin ledger` | Lists open ledger entries needing review | `bounty.admin` |\n| `/bounty admin bounties` | Every bounty record ever stored, with status | `bounty.admin` |\n| `/bounty admin resolve <id> refund\\|reject` | Unsticks a ledger entry: refund pays now, reject closes it | `bounty.admin` |\n\nEvery subcommand has tab completion — online targets for `place`, your own ids for `cancel`, and the full `admin` tree for staff.\n\n## Install\n\nBuild with `gradlew build`, take `build/libs/BountySystem-0.1.0.jar` into your `plugins/` folder, restart. First run creates `plugins/BountySystem/bounties.db` and the default config. v0.1.0 is available on GitHub Releases; the source is in the repo.\n\nPaper 26.3 · Java 25 · 58 tests"
     },
     {
       "title": "LifeClock",
       "slug": "lifeclock",
-      "tagline": "An SMP where every player lives on borrowed time — steal it in PvP, lose it to death, revive with a sacrifice.",
+      "tagline": "An SMP where every player lives on borrowed time — the clock drains while you play, PvP costs you two hours, and only a sacrifice brings you back.",
       "thumbnail": "assets/thumbs/lifeclock.jpg",
-      "video": "https://youtu.be/Aixmv1donOg?si=VF7wsezCTHO8Tfls",
+      "video": "https://youtu.be/Aixmv1donOg",
       "tags": [
-        "Paper 1.21",
+        "Paper 1.21.11",
         "Java 21",
-        "PvP",
-        "Gameplay",
-        "BossBar"
+        "Time economy",
+        "Sidebar HUD",
+        "Revive"
       ],
       "github": "https://github.com/vuranimation767-byte/LifeClock-Plugin",
       "download": "",
       "featured": false,
-      "published": "",
+      "published": "2026-10-24",
       "baseViews": 0,
-      "body": "⏳ LifeClock SMP — Time-Based Survival Plugin\nOverview:\n\nA fully customizable Paper/Spigot mechanics plugin that introduces a high-stakes time-economy system. Every player spawns with 24 hours of total survival time. The clock ticks down continuously while online, making time the ultimate currency and survival resource—the last player standing wins!\n\nKey Technical Features:\n\nKill & Death Mechanics: Killing an opponent extracts a portion of their remaining time and awards it directly to the killer.\n\nTime Withdrawal & Physical Items: Players can execute custom commands or UI actions to withdraw time into physical, tradable time tokens/items.\n\nCustom Recipe & Unban System: When a player's timer hits zero, they are automatically eliminated/banned. Teammates can craft a custom, high-tier revival item via a specialized crafting recipe to unban fallen players.\n\nOptimized GUI & Visual Indicators: Displays live time-trackers via clean Inventory GUIs, ActionBars, and Scoreboards using Paper's Adventure API.\n\nPerformance-First Architecture: Built with efficient scheduled tasks, custom NBT/PersistentDataContainer tags, and asynchronous data saving to prevent server lag.\n\nTech Stack: Java 17+, Paper/Spigot API, PersistentDataContainer, Task Scheduler, Adventure API.\n\n## Commands\n\n| Command | What it does |\n| --- | --- |\n| `/lifeclock add <player> <time>` | Adds time to a player's clock |\n| `/lifeclock remove <player> <time>` | Removes time from a player's clock |\n| `/lifeclock set <player> <time>` | Sets the clock directly |\n| `/lifeclock check <player>` | Shows a player's remaining time |\n| `/lifeclock revive <player>` | Revives a ghost |\n| `/withdraw <time>` | Withdraws time from your own clock into a Time Clock item — `/withdraw` alone opens the selection menu |\n\n`/lifeclock` requires `lifeclock.admin` (op by default); `/withdraw` is for every player.\n\n## Showcase\n\nDocs, HUD states and GUI mocks live in the [life-clock-smp-website](https://github.com/vuranimation767-byte/life-clock-smp-website) repo — the plugin source is private."
+      "body": "LifeClock is a time-economy SMP for Paper. Every player starts with **24 hours** on a sidebar clock that drains one second per second while they are online. At zero they become a **Ghost** in spectator mode; the only way back is a teammate willing to spend their own time.\n\n## What happens\n\n- **The clock drains while online** — one second per second, shown in a sidebar HUD titled TIME. Numbers turn green above 10 hours, yellow from 5–10, red below 5, and flash red/white under 1 hour.\n- **PvP costs two hours** — a victim loses 2 hours and drops a Time Clock at the death spot. Anyone can pick it up and right-click it for +2h.\n- **Zero means Ghost** — at zero seconds the player becomes a Ghost in spectator mode. Their time and Ghost state survive restarts and reconnects.\n- **Revive Totem** — crafted shapeless from a totem, golden apple, diamond and blaze rod. Right-clicking one opens the **54-slot ghost menu** (player heads plus a compass search slot); the revive costs the reviver **5 hours** of their own clock and gives the revived player **2 hours**.\n- **Withdraw time** — `/withdraw` converts your own clock into tradeable Time Clock items, either from presets or a custom amount. It refuses to empty your clock.\n- **Persistence** — state lives in `times.yml`, saved on changes, every minute and on shutdown.\n\n## Commands\n\n| Command | What it does |\n| --- | --- |\n| `/lifeclock add <player> <time>` | Adds time to a player’s clock |\n| `/lifeclock remove <player> <time>` | Removes time from a player’s clock |\n| `/lifeclock set <player> <time>` | Sets the clock directly |\n| `/lifeclock check <player>` | Shows a player’s remaining time |\n| `/lifeclock revive <player>` | Revives a Ghost |\n| `/withdraw <time>` | Withdraws time into a Time Clock item — `/withdraw` alone opens the preset menu |\n\n`/lifeclock` requires `lifeclock.admin` (op by default); `/withdraw` is for every player. Durations accept `45s`, `90m`, `2h`, `1d` or plain seconds.\n\n## Install\n\nBuilt against **Paper 1.21.11** and **Java 21**. Build with `mvn package`, drop the jar into `plugins/`, and restart. The source is public at [LifeClock-Plugin](https://github.com/vuranimation767-byte/LifeClock-Plugin)."
     }
   ]
 }

@@ -15,6 +15,9 @@ const slug = new URLSearchParams(location.search).get("p");
 
 const eyeIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="2.5"/></svg>`;
 const playIcon = `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5-11-6.5Z"/></svg>`;
+const closeIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>`;
+
+let openPlayer = null;
 
 function thumbnailMarkup(project, className = "") {
   if (!project.thumbnail) return "";
@@ -23,6 +26,7 @@ function thumbnailMarkup(project, className = "") {
 
 function mediaMarkup(project) {
   const video = parseVideo(project.video);
+  const label = project.slug === "lifeclock" ? "Watch recording" : "Watch demo";
 
   if (video?.type === "youtube" || video?.type === "vimeo") {
     return `
@@ -30,10 +34,10 @@ function mediaMarkup(project) {
         <button class="video-facade" type="button"
           data-embed="${escapeHtml(video.embed)}"
           data-title="${escapeHtml(project.title)}"
-          aria-label="Play demo video for ${escapeHtml(project.title)}">
+          aria-label="Play ${escapeHtml(project.title)} video">
           ${thumbnailMarkup(project)}
           <span class="play">${playIcon}</span>
-          <span class="facade-label">Watch demo</span>
+          <span class="facade-label">${label}</span>
         </button>
       </div>`;
   }
@@ -44,10 +48,10 @@ function mediaMarkup(project) {
         <button class="video-facade" type="button"
           data-file="${escapeHtml(video.src)}"
           data-poster="${escapeHtml(project.thumbnail || "")}"
-          aria-label="Play demo video for ${escapeHtml(project.title)}">
+          aria-label="Play ${escapeHtml(project.title)} video">
           ${thumbnailMarkup(project)}
           <span class="play">${playIcon}</span>
-          <span class="facade-label">Watch demo</span>
+          <span class="facade-label">${label}</span>
         </button>
       </div>`;
   }
@@ -91,10 +95,10 @@ function render(project, site) {
 
   const metaParts = [];
   if (tags) metaParts.push(`<ul class="tags">${tags}</ul>`);
-  if (date) metaParts.push(`<span>${escapeHtml(date)}</span>`);
+  if (date) metaParts.push(`<span>Published ${escapeHtml(date)}</span>`);
   if (views) metaParts.push(views);
   const meta = metaParts.length
-    ? `<div class="meta-row">${metaParts.join('<span class="meta-dot" aria-hidden="true">·</span>')}</div>`
+    ? `<div class="meta-row">${metaParts.join("")}</div>`
     : "";
 
   const actions = [];
@@ -110,7 +114,7 @@ function render(project, site) {
   }
 
   main.innerHTML = `
-    <a class="back" href="index.html#work">← All work</a>
+    <a class="back" href="index.html#videos">← All videos</a>
     ${mediaMarkup(project)}
     <header class="detail-head">
       <h1>${escapeHtml(project.title)}</h1>
@@ -188,11 +192,39 @@ function showMessage(title, message) {
     <div class="notfound">
       <h1>${escapeHtml(title)}</h1>
       <p>${escapeHtml(message)}</p>
-      <a class="btn btn-primary" href="index.html#work">Back to all work</a>
+      <a class="btn btn-primary" href="index.html#videos">Back to all videos</a>
     </div>`;
 }
 
+function closePlayer({ restoreFocus = true } = {}) {
+  if (!openPlayer) return;
+  const { wrap, trigger } = openPlayer;
+  openPlayer = null;
+  wrap.remove();
+  if (restoreFocus) trigger.focus();
+}
+
+function openFacade(facade, node) {
+  const media = facade.closest(".detail-media");
+  if (!media) return;
+
+  closePlayer({ restoreFocus: false });
+
+  const wrap = document.createElement("div");
+  wrap.className = "video-player-wrap";
+  wrap.innerHTML = `<button class="player-close" type="button" aria-label="Close video">${closeIcon}</button>`;
+  wrap.appendChild(node);
+  media.appendChild(wrap);
+  openPlayer = { wrap, trigger: facade };
+  wrap.querySelector(".player-close").focus();
+}
+
 main?.addEventListener("click", (event) => {
+  if (event.target.closest(".player-close")) {
+    closePlayer();
+    return;
+  }
+
   const facade = event.target.closest(".video-facade");
   if (!facade) return;
 
@@ -201,13 +233,12 @@ main?.addEventListener("click", (event) => {
     if (!source) return;
 
     const video = document.createElement("video");
-    video.className = "video-player";
     video.controls = true;
     video.autoplay = true;
     video.playsInline = true;
     video.src = source.href;
     if (facade.dataset.poster) video.poster = facade.dataset.poster;
-    facade.replaceWith(video);
+    openFacade(facade, video);
     video.play().catch(() => {
       /* autoplay can be blocked; native controls remain */
     });
@@ -219,11 +250,15 @@ main?.addEventListener("click", (event) => {
 
   const iframe = document.createElement("iframe");
   iframe.src = embed.href;
-  iframe.title = `Demo video: ${facade.dataset.title || "project"}`;
+  iframe.title = `Video: ${facade.dataset.title || "project"}`;
   iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
   iframe.allowFullscreen = true;
   iframe.referrerPolicy = "strict-origin-when-cross-origin";
-  facade.replaceWith(iframe);
+  openFacade(facade, iframe);
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && openPlayer) closePlayer();
 });
 
 document.addEventListener(
@@ -246,7 +281,7 @@ async function boot() {
   initSite();
 
   if (!slug) {
-    showMessage("No project selected", "Pick a project from the gallery to see its details.");
+    showMessage("No project selected", "Pick a project from the videos section to see its details.");
     return;
   }
 

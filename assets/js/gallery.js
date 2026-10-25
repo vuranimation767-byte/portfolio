@@ -1,26 +1,13 @@
-import { escapeHtml, formatViews, getData, getViewCount, initials, safeUrl } from "./core.js";
+import { escapeHtml, getData, initials, parseVideo, safeUrl } from "./core.js";
 import { initSite } from "./site.js";
 
-const state = {
-  site: {},
-  projects: [],
-  query: "",
-  tag: "all",
-};
+const grid = document.querySelector("#video-grid");
+const status = document.querySelector("#video-status");
 
-const grid = document.querySelector("#grid");
-const count = document.querySelector("#count");
-const empty = document.querySelector("#empty");
-const chips = document.querySelector("#chips");
-const search = document.querySelector("#q");
-const frameImg = document.querySelector("#frame-img");
-const frameMono = document.querySelector("#frame-mono");
+const playIcon = `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5-11-6.5Z"/></svg>`;
+const closeIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>`;
 
-const eyeIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="2.5"/></svg>`;
-
-let searchTimer = null;
-let viewObserver = null;
-let frameObserver = null;
+let openPlayer = null;
 
 function sortedProjects(projects) {
   return [...projects].sort(
@@ -30,228 +17,167 @@ function sortedProjects(projects) {
   );
 }
 
-function nameMarkup(project, index) {
+function watchUrl(video) {
+  if (video?.type === "youtube") return `https://www.youtube.com/watch?v=${video.id}`;
+  if (video?.type === "vimeo") return `https://vimeo.com/${video.id}`;
+  return "";
+}
+
+function cardMarkup(project, index) {
+  const video = parseVideo(project.video);
+  const poster = safeUrl(project.thumbnail);
+  const details = `project.html?p=${encodeURIComponent(project.slug)}`;
+  const external = watchUrl(video);
+
+  const play = video
+    ? `<button class="play-btn" type="button"
+        ${video.type === "file" ? `data-file="${escapeHtml(video.src)}"` : `data-embed="${escapeHtml(video.embed)}"`}
+        data-title="${escapeHtml(project.title)}"
+        aria-label="Play ${escapeHtml(project.title)} video">${playIcon}</button>`
+    : "";
+
   const tags = (project.tags || [])
+    .slice(0, 3)
     .map((tag) => `<li class="tag">${escapeHtml(tag)}</li>`)
     .join("");
 
-  const viewsEnabled = state.site.features?.views !== false;
-  const baseViews = Number(project.baseViews) || 0;
-  const views = viewsEnabled
-    ? `<span class="views" data-views="${escapeHtml(project.slug)}" ${baseViews > 0 ? "" : "hidden"}>${eyeIcon}<span>${formatViews(baseViews)}</span></span>`
-    : "";
-
   return `
-    <article class="name-entry" data-slug="${escapeHtml(project.slug)}" style="animation-delay:${index * 60}ms">
-      <h3 class="name-title"><a href="project.html?p=${encodeURIComponent(project.slug)}">${escapeHtml(project.title)}</a></h3>
-      <div class="name-meta">
-        ${views}
-        <ul class="tags">${tags}</ul>
+    <article class="video-card">
+      <div class="video-media${video ? " is-playable" : ""}">
+        ${poster
+          ? `<img src="${escapeHtml(poster.href)}" alt="" loading="${index < 2 ? "eager" : "lazy"}" decoding="async" data-initials="${escapeHtml(initials(project.title))}">`
+          : `<span class="poster-fallback" aria-hidden="true">${escapeHtml(initials(project.title))}</span>`}
+        ${play}
       </div>
-      <p class="name-line">${escapeHtml(project.tagline)}</p>
+      <div class="video-body">
+        <h3><a href="${details}">${escapeHtml(project.title)}</a></h3>
+        <p>${escapeHtml(project.tagline)}</p>
+        ${tags ? `<ul class="video-tags">${tags}</ul>` : ""}
+        <div class="video-actions">
+          <a class="link-arrow" href="${details}">Project details
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="14" height="14"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          ${external ? `<a class="link-muted" href="${escapeHtml(external)}" target="_blank" rel="noopener">Open on YouTube ↗</a>` : ""}
+        </div>
+      </div>
     </article>`;
 }
 
-function renderChips() {
-  const tags = [...new Set(state.projects.flatMap((project) => project.tags || []))].sort((a, b) =>
-    a.localeCompare(b)
-  );
-
-  chips.innerHTML = [
-    `<button class="chip" type="button" data-tag="all" aria-pressed="${state.tag === "all"}">All</button>`,
-    ...tags.map(
-      (tag) =>
-        `<button class="chip" type="button" data-tag="${escapeHtml(tag)}" aria-pressed="${state.tag === tag}">${escapeHtml(tag)}</button>`
-    ),
-  ].join("");
+function closePlayer({ restoreFocus = true } = {}) {
+  if (!openPlayer) return;
+  const { wrap, trigger } = openPlayer;
+  openPlayer = null;
+  wrap.remove();
+  if (restoreFocus) trigger.focus();
 }
 
-function syncUrl() {
-  const url = new URL(location.href);
-  if (state.query) url.searchParams.set("q", state.query);
-  else url.searchParams.delete("q");
-  if (state.tag !== "all") url.searchParams.set("tag", state.tag);
-  else url.searchParams.delete("tag");
-  history.replaceState(null, "", url);
-}
+function openVideo(button) {
+  const media = button.closest(".video-media");
+  if (!media) return;
 
-function filteredProjects() {
-  const query = state.query.trim().toLowerCase();
-  return state.projects.filter((project) => {
-    if (state.tag !== "all" && !(project.tags || []).includes(state.tag)) return false;
-    if (!query) return true;
-    return [project.title, project.tagline, ...(project.tags || [])]
-      .join(" ")
-      .toLowerCase()
-      .includes(query);
-  });
-}
+  const isFile = Boolean(button.dataset.file);
+  const source = safeUrl(isFile ? button.dataset.file : button.dataset.embed);
+  if (!source) return;
 
-async function loadCardViews(element, project) {
-  if (!project) return;
-  const live = await getViewCount(state.site, project.slug);
-  const total = (Number(project.baseViews) || 0) + (live || 0);
-  if (total <= 0) return;
-  const label = element.querySelector("span");
-  if (!label) return;
-  label.textContent = formatViews(total);
-  element.hidden = false;
-}
+  closePlayer({ restoreFocus: false });
 
-function observeViews() {
-  if (state.site.features?.views === false) return;
-  viewObserver?.disconnect();
+  const wrap = document.createElement("div");
+  wrap.className = "video-player-wrap";
+  wrap.innerHTML = `<button class="player-close" type="button" aria-label="Close video">${closeIcon}</button>`;
 
-  const bySlug = new Map(state.projects.map((project) => [project.slug, project]));
-  viewObserver = new IntersectionObserver(
-    (entries) => {
-      for (const entry of entries) {
-        if (!entry.isIntersecting) continue;
-        viewObserver.unobserve(entry.target);
-        loadCardViews(entry.target, bySlug.get(entry.target.dataset.views));
-      }
-    },
-    { rootMargin: "240px" }
-  );
-
-  grid.querySelectorAll("[data-views]").forEach((element) => viewObserver.observe(element));
-}
-
-/* The held square: swap its picture as each name crosses the viewport centre. */
-function setFrame(project) {
-  if (!project) return;
-  const url = project.thumbnail ? safeUrl(project.thumbnail) : null;
-  if (url) {
-    frameImg.hidden = true;
-    frameImg.src = url.href;
-    frameImg.hidden = false;
-    frameMono.hidden = true;
+  if (isFile) {
+    const video = document.createElement("video");
+    video.controls = true;
+    video.autoplay = true;
+    video.playsInline = true;
+    video.src = source.href;
+    wrap.appendChild(video);
   } else {
-    frameImg.hidden = true;
-    frameImg.removeAttribute("src");
-    frameMono.textContent = initials(project.title);
-    frameMono.hidden = false;
+    const frame = document.createElement("iframe");
+    frame.src = source.href;
+    frame.title = `Video: ${button.dataset.title || "project"}`;
+    frame.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+    frame.allowFullscreen = true;
+    frame.referrerPolicy = "strict-origin-when-cross-origin";
+    wrap.appendChild(frame);
   }
+
+  media.appendChild(wrap);
+  openPlayer = { wrap, trigger: button };
+  wrap.querySelector(".player-close").focus();
 }
 
-function observeFrame() {
-  frameObserver?.disconnect();
-  const bySlug = new Map(state.projects.map((project) => [project.slug, project]));
-  frameObserver = new IntersectionObserver(
-    (entries) => {
-      for (const entry of entries) {
-        if (entry.isIntersecting) setFrame(bySlug.get(entry.target.dataset.slug));
-      }
-    },
-    { rootMargin: "-45% 0px -45% 0px" }
+function wire({ projects }) {
+  if (status) status.remove();
+
+  document.querySelector("#stat-plugins")?.replaceChildren(
+    document.createTextNode(`${projects.length} plugin${projects.length === 1 ? "" : "s"}`)
   );
-  grid.querySelectorAll(".name-entry").forEach((element) => frameObserver.observe(element));
-}
 
-function render() {
-  const projects = filteredProjects();
-  grid.innerHTML = projects.map(nameMarkup).join("");
-  count.textContent = `${projects.length} project${projects.length === 1 ? "" : "s"}`;
-  empty.hidden = projects.length !== 0;
-
-  chips.querySelectorAll(".chip").forEach((chip) => {
-    chip.setAttribute("aria-pressed", String(chip.dataset.tag === state.tag));
+  grid.querySelectorAll(".video-media img").forEach((image) => {
+    image.addEventListener("error", () => {
+      const fallback = document.createElement("span");
+      fallback.className = "poster-fallback";
+      fallback.setAttribute("aria-hidden", "true");
+      fallback.textContent = image.dataset.initials || "·";
+      image.replaceWith(fallback);
+    });
   });
 
-  setFrame(projects[0]);
-  observeFrame();
-  observeViews();
-}
+  grid.addEventListener("click", (event) => {
+    if (event.target.closest(".player-close")) {
+      closePlayer();
+      return;
+    }
 
-function showLoadError(message) {
-  grid.innerHTML = `
-    <div class="empty">
-      <p><strong>Could not load projects.</strong><br>${escapeHtml(message)}</p>
-      <p class="hint">If you opened this file directly, serve it over HTTP instead: <code>npx serve .</code></p>
-    </div>`;
-  count.textContent = "";
-}
+    const trigger = event.target.closest("[data-play], .play-btn");
+    if (trigger) {
+      event.preventDefault();
+      openVideo(trigger);
+      return;
+    }
 
-function wire() {
-  search.addEventListener("input", () => {
-    clearTimeout(searchTimer);
-    searchTimer = setTimeout(() => {
-      state.query = search.value;
-      render();
-      syncUrl();
-    }, 120);
-  });
-
-  search.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") {
-      search.value = "";
-      state.query = "";
-      render();
-      syncUrl();
+    const media = event.target.closest(".video-media.is-playable");
+    if (media && !media.querySelector(".video-player-wrap")) {
+      media.querySelector(".play-btn")?.click();
     }
   });
 
   document.addEventListener("keydown", (event) => {
-    if (event.key !== "/" || event.metaKey || event.ctrlKey || event.altKey) return;
-    const target = event.target;
-    if (
-      target instanceof HTMLInputElement ||
-      target instanceof HTMLTextAreaElement ||
-      target?.isContentEditable
-    ) {
-      return;
-    }
-    event.preventDefault();
-    search.focus();
+    if (event.key === "Escape" && openPlayer) closePlayer();
   });
+}
 
-  chips.addEventListener("click", (event) => {
-    const chip = event.target.closest(".chip");
-    if (!chip) return;
-    state.tag = chip.dataset.tag;
-    render();
-    syncUrl();
-  });
-
-  document.querySelector("#clear-filters").addEventListener("click", () => {
-    state.query = "";
-    state.tag = "all";
-    search.value = "";
-    render();
-    syncUrl();
-    search.focus();
-  });
-
-  frameImg.addEventListener("error", () => {
-    frameImg.hidden = true;
-    frameImg.removeAttribute("src");
-    frameMono.hidden = false;
-  });
+function showError(message) {
+  status?.remove();
+  grid.innerHTML = `
+    <div class="empty" style="grid-column: 1 / -1">
+      <p><strong>Could not load videos.</strong><br>${escapeHtml(message)}</p>
+      <p class="hint">If you opened this file directly, serve it over HTTP instead: <code>npx serve .</code></p>
+    </div>`;
 }
 
 async function boot() {
   initSite();
 
-  const params = new URLSearchParams(location.search);
-  state.query = (params.get("q") || "").trim();
-  state.tag = params.get("tag") || "all";
-  search.value = state.query;
-
-  wire();
-
   try {
     const data = await getData();
-    state.site = data.site || {};
-    state.projects = sortedProjects(data.projects || []);
+    const projects = sortedProjects(data.projects || []);
 
-    if (state.tag !== "all" && !state.projects.some((project) => (project.tags || []).includes(state.tag))) {
-      state.tag = "all";
+    if (!projects.length) {
+      status?.remove();
+      grid.innerHTML = `
+        <div class="empty" style="grid-column: 1 / -1">
+          <p><strong>No videos yet.</strong></p>
+          <p class="hint">Add a project in the admin editor to show it here.</p>
+        </div>`;
+      return;
     }
 
-    renderChips();
-    render();
+    grid.innerHTML = projects.map(cardMarkup).join("");
+    wire({ projects });
   } catch (error) {
-    showLoadError(error.message);
+    showError(error.message);
   }
 }
 

@@ -1,18 +1,18 @@
 # Minecraft plugin portfolio
 
-A clean, fast portfolio for Minecraft plugins and dev projects. Plain HTML, CSS and JavaScript — no framework, no build step, no server. It deploys straight to GitHub Pages and includes a browser-based content manager.
+A video-first portfolio for Minecraft plugins. Plain HTML, CSS and JavaScript — no framework, no build step, no server. It deploys straight to GitHub Pages and includes a browser-based content manager.
 
 **Live:** [vuranimation767-byte.github.io/portfolio](https://vuranimation767-byte.github.io/portfolio/)
 
-> **Demo content:** the name “Alex Rivers”, GitHub links, thumbnails and demo videos are placeholders. Replace them in `data/projects.json` and `assets/thumbs/` before sharing the site.
-
 ## What's included
 
-- Filterable, searchable project gallery with per-card view counts.
-- Project pages with YouTube / Vimeo / MP4 showcase video, Markdown docs, GitHub and download links.
-- GitHub Discussions comments via Giscus (optional).
+- Homepage built around the demos: each project is a poster card that plays its YouTube video inline, with a link to the full write-up.
+- Project pages with video, Markdown docs, GitHub and download links.
+- Short Privacy & terms page at `legal.html` (hosting, local storage, video embeds, downloads).
 - Admin editor at `admin.html`: add/edit/delete projects, validate fields, preview Markdown, save drafts in the browser, import/export JSON, optional one-click publish to GitHub.
 - Light/dark theme, responsive layout, keyboard support, reduced-motion support.
+
+The public pages use `assets/css/site.css`. The admin panel keeps the older `assets/css/style.css` and is untouched by the public design.
 
 ## Local preview
 
@@ -60,7 +60,7 @@ Replace `ADMIN_HASH` at the top of `assets/js/admin.js` with the output. Changin
 ### Saving and publishing
 
 - **Save draft** writes to `localStorage` in that browser. Refresh restores the draft. It does not change the live site.
-- **Publish live** saves the open form and commits `data/projects.json` to GitHub. The gallery fetches a cache-busted copy, so the new content appears once GitHub Pages finishes deploying — usually under a minute.
+- **Publish live** saves the open form and commits `data/projects.json` to GitHub. The homepage fetches a cache-busted copy, so the new content appears once GitHub Pages finishes deploying — usually under a minute.
 - **Export JSON** downloads `projects.json`. Commit it to `data/projects.json`.
 
 For publishing, create a **fine-grained personal access token** with **Contents: read and write** on just the portfolio repository. Enter the repo (`owner/repo`), branch, file path and token in **Settings**. The token is stored in this browser's `localStorage` and is never written into the site. Revoke it on GitHub if a device is lost, or use **Forget token**. Use the **Lock** button to end an admin session.
@@ -75,8 +75,9 @@ The editor needs HTTPS or localhost because it uses `crypto.subtle` for the pass
 
 | Field | Purpose |
 | --- | --- |
-| `name`, `role`, `headline`, `tagline`, `about` | Hero, header, footer and About copy |
-| `github` | Profile link used by the nav, hero and footer |
+| `name`, `tagline`, `about` | Header, hero and About copy |
+| `role`, `headline` | Kept for compatibility; the public pages use the fields above |
+| `github` | Profile link used by the header, hero and footer |
 | `features.views` | `false` hides all view counters and stops counting |
 | `features.comments` | `false` hides comments even when Giscus is configured |
 | `counterNamespace` | Abacus namespace — keep this stable (see Views) |
@@ -90,7 +91,7 @@ The editor needs HTTPS or localhost because it uses `crypto.subtle` for the pass
 | `title`, `tagline` | Card and detail page copy |
 | `thumbnail` | Path like `assets/thumbs/name.webp`, or an https URL |
 | `video` | YouTube, Vimeo or direct `.mp4` / `.webm` URL. Empty is fine. |
-| `tags` | Array of strings. They become gallery filter chips. |
+| `tags` | Array of strings. The first three show on the video card; all show on the detail page. |
 | `github`, `download` | Optional http(s) links |
 | `featured` | Featured projects sort first |
 | `published` | `YYYY-MM-DD`; used for ordering and the detail meta row |
@@ -126,20 +127,22 @@ Add a project by hand or through the admin. A minimal entry:
 
 ## Videos
 
-Paste a YouTube, Vimeo or direct video URL. YouTube/Vimeo load only after a click, so no heavy embed scripts on first paint. Direct MP4/WebM files use a native `<video>` element with `preload="none"`. If the URL isn't recognised, the detail page shows the thumbnail instead.
+Paste a YouTube, Vimeo or direct video URL. The homepage shows the project's `thumbnail` as the poster; the video loads only after a click and plays inline via `youtube-nocookie.com`, so no embed scripts run on first paint and no YouTube request is made until play. Escape closes the player and returns focus to the play button. Direct MP4/WebM files use a native `<video>` element. If the URL isn't recognised, the card and detail page show the poster only.
 
-## Views (Abacus)
+Use a real in-game frame as the poster, not a mockup.
 
-Counts use the free [Abacus](https://abacus.jasoncameron.dev/) counter API — no account, no server, CORS enabled. The detail page increments the counter once per browser session; the gallery reads counts lazily and caches them for ten minutes.
+## Views (Abacus) — optional, off
+
+`features.views` is `false` on the live site. If you turn it on, counts use the free [Abacus](https://abacus.jasoncameron.dev/) counter API — no account, no server, CORS enabled. The detail page increments the counter once per browser session; cards read counts lazily and cache them for ten minutes.
 
 - Set `counterNamespace` to a stable value such as your domain. Changing it starts from zero.
 - `baseViews` is added on top of the live count (the demo uses it so the design looks populated). Set it to `0` for real numbers.
 - Localhost does not increment counters, but it can read them.
 - Any third-party counter can be inflated or go offline. If it fails, cards quietly fall back to `baseViews`.
 
-## Comments (Giscus)
+## Comments (Giscus) — optional, off
 
-Comments are **hidden until configured**. One-time setup:
+`features.comments` is `false` on the live site. Comments are **hidden until configured**. One-time setup:
 
 1. Push the site to a **public** GitHub repository.
 2. Repo **Settings → General → Features → Discussions**.
@@ -161,10 +164,10 @@ Each project maps to its own Discussion using the slug. Visitors need a GitHub a
 ## Customising
 
 - **Copy:** the `site` block in `data/projects.json` and the static fallbacks in the HTML.
-- **Colours:** `--accent`, `--bg`, `--card`, `--text` and friends at the top of `assets/css/style.css`. Dark mode is the `[data-theme="dark"]` block.
+- **Colours (public pages):** `--bg`, `--ink`, `--muted`, `--accent` and friends at the top of `assets/css/site.css`. Dark mode is the `[data-theme="dark"]` block. The admin keeps its own palette in `assets/css/style.css`.
 - **Fonts:** system UI stack by default (no download). Swap `--font` for a self-hosted typeface if you want one.
 - **Logo:** a CSS gradient square (`.brand-mark`), plus `assets/favicon.svg`. Replace both with your own mark.
-- **Thumbnails:** the six SVGs in `assets/thumbs/` are designed placeholders.
+- **Thumbnails:** use real 16:9 frames from the demo videos in `assets/thumbs/`.
 
 ## Tests
 
@@ -174,16 +177,18 @@ Open `/dev/tests.html` through the local server. It runs assertion checks for sl
 
 ```
 .
-├─ index.html                  gallery
+├─ index.html                  video-first homepage
 ├─ project.html                project detail (?p=slug)
+├─ legal.html                  privacy & terms
 ├─ admin.html                  content manager
 ├─ 404.html
 ├─ data/projects.json          site + projects (source of truth)
 ├─ assets/
-│  ├─ css/style.css
+│  ├─ css/site.css             public pages
+│  ├─ css/style.css            admin only
 │  ├─ js/core.js               helpers, data, views, theme
-│  ├─ js/site.js               header/footer copy
-│  ├─ js/gallery.js
+│  ├─ js/site.js               theme, mobile menu, copy, reveal
+│  ├─ js/gallery.js            video cards + inline player
 │  ├─ js/project.js
 │  ├─ js/admin.js
 │  ├─ js/vendor/marked.min.js  Markdown renderer (MIT, pinned)
