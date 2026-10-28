@@ -258,10 +258,20 @@
       if (!work) return;
       var locked = false;
       var current = "dark";
+      var fadeTimer = 0;
+
+      function fade() {
+        root.classList.add("is-theme-fading");
+        clearTimeout(fadeTimer);
+        fadeTimer = setTimeout(function () {
+          root.classList.remove("is-theme-fading");
+        }, 1300);
+      }
 
       function paint(theme) {
         if (theme === current) return;
         current = theme;
+        fade();
         root.dataset.theme = theme;
         var meta = document.querySelector('meta[name="theme-color"]');
         if (meta) meta.setAttribute("content", theme === "dark" ? "#0b0b0c" : "#fbfbfd");
@@ -271,12 +281,18 @@
         document.dispatchEvent(new CustomEvent("themechange", { detail: { theme: theme } }));
       }
 
-      document.addEventListener("click", function (event) {
-        if (event.target.closest("[data-theme-toggle]")) {
+      document.addEventListener(
+        "click",
+        function (event) {
+          if (!event.target.closest("[data-theme-toggle]")) return;
           locked = true;
-          current = root.dataset.theme;
-        }
-      });
+          fade();
+          setTimeout(function () {
+            current = root.dataset.theme;
+          }, 0);
+        },
+        true
+      );
 
       var ticking = false;
       function onScroll() {

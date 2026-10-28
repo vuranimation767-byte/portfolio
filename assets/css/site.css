@@ -3,6 +3,18 @@
    The admin panel keeps using assets/css/style.css. This file is public-only.
    ========================================================================== */
 
+/* Theme switch
+   Applies only while html.is-theme-fading is on, so hover transitions stay snappy. */
+html.is-theme-fading *,
+html.is-theme-fading *::before,
+html.is-theme-fading *::after {
+  transition: background-color 1.2s cubic-bezier(0.45, 0, 0.55, 1),
+    border-color 1.2s cubic-bezier(0.45, 0, 0.55, 1),
+    color 1.2s cubic-bezier(0.45, 0, 0.55, 1),
+    fill 1.2s cubic-bezier(0.45, 0, 0.55, 1),
+    box-shadow 1.2s cubic-bezier(0.45, 0, 0.55, 1) !important;
+}
+
 /* Tokens
    ========================================================================== */
 :root {
@@ -85,7 +97,7 @@ body {
   font-optical-sizing: auto;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transition: background-color 0.45s ease, color 0.45s ease;
+  transition: background-color 1.2s cubic-bezier(0.45, 0, 0.55, 1), color 1.2s cubic-bezier(0.45, 0, 0.55, 1);
 }
 
 img,
@@ -181,7 +193,7 @@ blockquote {
   border-bottom: 1px solid var(--line);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
   backdrop-filter: saturate(180%) blur(20px);
-  transition: background-color 0.45s ease, border-color 0.45s ease;
+  transition: background-color 1.2s cubic-bezier(0.45, 0, 0.55, 1), border-color 1.2s cubic-bezier(0.45, 0, 0.55, 1);
 }
 
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
@@ -654,7 +666,7 @@ blockquote {
   border: 1px solid var(--line);
   border-radius: 20px;
   background: var(--surface);
-  transition: background-color 0.45s ease, border-color 0.45s ease;
+  transition: background-color 1.2s cubic-bezier(0.45, 0, 0.55, 1), border-color 1.2s cubic-bezier(0.45, 0, 0.55, 1);
 }
 
 .card h3 {
@@ -965,7 +977,7 @@ blockquote {
   border: 1px solid var(--line);
   border-radius: var(--radius-sm);
   background: var(--surface);
-  transition: background-color 0.45s ease, border-color 0.45s ease;
+  transition: background-color 1.2s cubic-bezier(0.45, 0, 0.55, 1), border-color 1.2s cubic-bezier(0.45, 0, 0.55, 1);
 }
 
 .stat strong {
