@@ -3,64 +3,6 @@
    The admin panel keeps using assets/css/style.css. This file is public-only.
    ========================================================================== */
 
-/* Theme switch
-   Night → dawn → day. The body animates through indigo and warm horizon
-   tones while the UI resolves a beat later, so the change reads as a sky
-   rather than a dimmer. Everything is scoped to html.is-theme-fading. */
-@keyframes sky-to-day {
-  0% {
-    background-color: #0b0b0c;
-  }
-  28% {
-    background-color: #131f33;
-  }
-  56% {
-    background-color: #66809c;
-  }
-  80% {
-    background-color: #e9e2d8;
-  }
-  100% {
-    background-color: #fbfbfd;
-  }
-}
-
-@keyframes sky-to-night {
-  0% {
-    background-color: #fbfbfd;
-  }
-  24% {
-    background-color: #e9e2d8;
-  }
-  50% {
-    background-color: #66809c;
-  }
-  76% {
-    background-color: #131f33;
-  }
-  100% {
-    background-color: #0b0b0c;
-  }
-}
-
-html.sky-to-day body {
-  animation: sky-to-day 2.8s cubic-bezier(0.65, 0, 0.35, 1) both;
-}
-
-html.sky-to-night body {
-  animation: sky-to-night 2.8s cubic-bezier(0.65, 0, 0.35, 1) both;
-}
-
-html.is-theme-fading *,
-html.is-theme-fading *::before,
-html.is-theme-fading *::after {
-  transition: background-color 2.4s cubic-bezier(0.65, 0, 0.35, 1) 0.15s,
-    border-color 2.4s cubic-bezier(0.65, 0, 0.35, 1) 0.15s,
-    box-shadow 2.4s cubic-bezier(0.65, 0, 0.35, 1) 0.15s,
-    color 1.4s cubic-bezier(0.65, 0, 0.35, 1) 1.1s,
-    fill 1.4s cubic-bezier(0.65, 0, 0.35, 1) 1.1s !important;
-}
-
 /* Tokens
    ========================================================================== */
 :root {
@@ -143,7 +85,7 @@ body {
   font-optical-sizing: auto;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transition: background-color 1.2s cubic-bezier(0.45, 0, 0.55, 1), color 1.2s cubic-bezier(0.45, 0, 0.55, 1);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 img,
@@ -239,7 +181,7 @@ blockquote {
   border-bottom: 1px solid var(--line);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
   backdrop-filter: saturate(180%) blur(20px);
-  transition: background-color 1.2s cubic-bezier(0.45, 0, 0.55, 1), border-color 1.2s cubic-bezier(0.45, 0, 0.55, 1);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
@@ -712,7 +654,7 @@ blockquote {
   border: 1px solid var(--line);
   border-radius: 20px;
   background: var(--surface);
-  transition: background-color 1.2s cubic-bezier(0.45, 0, 0.55, 1), border-color 1.2s cubic-bezier(0.45, 0, 0.55, 1);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .card h3 {
@@ -1023,7 +965,7 @@ blockquote {
   border: 1px solid var(--line);
   border-radius: var(--radius-sm);
   background: var(--surface);
-  transition: background-color 1.2s cubic-bezier(0.45, 0, 0.55, 1), border-color 1.2s cubic-bezier(0.45, 0, 0.55, 1);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .stat strong {

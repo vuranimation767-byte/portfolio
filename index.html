@@ -14,7 +14,9 @@
   <meta name="theme-color" content="#0b0b0c">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <script>
-    document.documentElement.dataset.theme = "dark";
+    document.documentElement.dataset.theme = (function () {
+      try { return localStorage.getItem("theme") || "dark"; } catch (e) { return "dark"; }
+    })();
     document.documentElement.classList.add("js");
   </script>
   <link rel="stylesheet" href="assets/css/site.css">
@@ -251,64 +253,5 @@
 
   <script type="module" src="assets/js/gallery.js"></script>
   <script type="module" src="assets/js/globe.js"></script>
-  <script>
-    (function () {
-      var root = document.documentElement;
-      var services = document.getElementById("services");
-      if (!services) return;
-      var locked = false;
-      var current = "dark";
-      var fadeTimer = 0;
-
-      function fade(theme) {
-        root.classList.remove("sky-to-day", "sky-to-night");
-        root.classList.add("is-theme-fading", theme === "light" ? "sky-to-day" : "sky-to-night");
-        clearTimeout(fadeTimer);
-        fadeTimer = setTimeout(function () {
-          root.classList.remove("is-theme-fading", "sky-to-day", "sky-to-night");
-        }, 2950);
-      }
-
-      function paint(theme) {
-        if (theme === current) return;
-        current = theme;
-        fade(theme);
-        root.dataset.theme = theme;
-        var meta = document.querySelector('meta[name="theme-color"]');
-        if (meta) meta.setAttribute("content", theme === "dark" ? "#0b0b0c" : "#fbfbfd");
-        document.querySelectorAll("[data-theme-toggle]").forEach(function (btn) {
-          btn.setAttribute("aria-label", theme === "dark" ? "Switch to light theme" : "Switch to dark theme");
-        });
-        document.dispatchEvent(new CustomEvent("themechange", { detail: { theme: theme } }));
-      }
-
-      document.addEventListener(
-        "click",
-        function (event) {
-          if (!event.target.closest("[data-theme-toggle]")) return;
-          locked = true;
-          fade(root.dataset.theme === "dark" ? "light" : "dark");
-          setTimeout(function () {
-            current = root.dataset.theme;
-          }, 0);
-        },
-        true
-      );
-
-      var ticking = false;
-      function onScroll() {
-        if (locked || ticking) return;
-        ticking = true;
-        requestAnimationFrame(function () {
-          ticking = false;
-          var line = window.scrollY + window.innerHeight * 0.45;
-          paint(line >= services.offsetTop ? "light" : "dark");
-        });
-      }
-
-      window.addEventListener("scroll", onScroll, { passive: true });
-      onScroll();
-    })();
-  </script>
 </body>
 </html>
