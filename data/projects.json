@@ -3,9 +3,9 @@
   "site": {
     "name": "Block Builder",
     "role": "Minecraft Plugin Developer",
-    "headline": "Minecraft plugins, shown in action.",
-    "tagline": "Two Paper plugins: a crash-safe bounty economy and an SMP built on borrowed time. Watch them run, then read how they work.",
-    "about": "Block Builder is a solo plugin studio for Minecraft servers. I build Paper-first game systems — bounty economies, time-based SMPs, hardened GUIs — with crash-safe storage, validated configs and tests behind the money paths. If a player can break it at 3am, the ledger still has to balance.",
+    "headline": "Build what you imagine. We handle the code.",
+    "tagline": "Custom Paper 1.21+ plugins, tailored gamemodes and turnkey server setups — built for high performance and zero lag.",
+    "about": "Block Builder is a development studio specializing in Paper-native game systems, custom 1.21 mechanics, and turnkey server setups. From lightweight combat plugins to full gamemode ecosystems, every build is engineered for high TPS, crash-safe data handling, and 100% configurable options. Whether you need a custom Mace/Spear kit setup, integrated GUI shops, or a complete server launch, we deliver production-ready code in days — not weeks.",
     "github": "https://github.com/vuranimation767-byte",
     "features": {
       "views": false,

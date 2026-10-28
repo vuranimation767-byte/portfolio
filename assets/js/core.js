@@ -276,7 +276,7 @@ export function initTheme() {
       button.setAttribute("title", dark ? "Switch to light theme" : "Switch to dark theme");
     });
     const themeColor = document.querySelector('meta[name="theme-color"]');
-    if (themeColor) themeColor.setAttribute("content", dark ? "#0d0e10" : "#f7f9fa");
+    if (themeColor) themeColor.setAttribute("content", dark ? "#0b0b0c" : "#fbfbfd");
   };
 
   buttons.forEach((button) => {

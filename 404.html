@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Page not found — Block Builder</title>
   <meta name="robots" content="noindex">
-  <meta name="theme-color" content="#f7f9fa">
+  <meta name="theme-color" content="#fbfbfd">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <script>
     try {
       var savedTheme = localStorage.getItem("theme");
-      document.documentElement.dataset.theme = savedTheme || "light";
+      document.documentElement.dataset.theme = savedTheme || "dark";
     } catch (error) {
-      document.documentElement.dataset.theme = "light";
+      document.documentElement.dataset.theme = "dark";
     }
     document.documentElement.classList.add("js");
   </script>
@@ -30,6 +30,7 @@
 
       <nav class="nav" aria-label="Primary">
         <a class="nav-link" href="index.html#videos">Videos</a>
+        <a class="nav-link" href="index.html#services">Services</a>
         <a class="nav-link" href="index.html#about">About</a>
         <a class="nav-link" href="index.html#contact">Contact</a>
       </nav>
@@ -54,6 +55,7 @@
     <div class="mobile-menu" id="mobile-menu" hidden>
       <nav aria-label="Mobile">
         <a href="index.html#videos">Videos</a>
+        <a href="index.html#services">Services</a>
         <a href="index.html#about">About</a>
         <a href="index.html#contact">Contact</a>
         <a href="legal.html">Privacy &amp; terms</a>

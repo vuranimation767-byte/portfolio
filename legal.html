@@ -3,17 +3,17 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Privacy &amp; Terms — Block Builder</title>
-  <meta name="description" content="How this portfolio handles hosting, theme storage, video embeds and plugin downloads.">
+  <title>Terms &amp; Privacy — Block Builder</title>
+  <meta name="description" content="The terms that apply to this portfolio, and what happens to information when you visit it.">
   <meta name="robots" content="index,follow">
-  <meta name="theme-color" content="#f7f9fa">
+  <meta name="theme-color" content="#fbfbfd">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <script>
     try {
       var savedTheme = localStorage.getItem("theme");
-      document.documentElement.dataset.theme = savedTheme || "light";
+      document.documentElement.dataset.theme = savedTheme || "dark";
     } catch (error) {
-      document.documentElement.dataset.theme = "light";
+      document.documentElement.dataset.theme = "dark";
     }
     document.documentElement.classList.add("js");
   </script>
@@ -31,6 +31,7 @@
 
       <nav class="nav" aria-label="Primary">
         <a class="nav-link" href="index.html#videos">Videos</a>
+        <a class="nav-link" href="index.html#services">Services</a>
         <a class="nav-link" href="index.html#about">About</a>
         <a class="nav-link" href="index.html#contact">Contact</a>
       </nav>
@@ -55,6 +56,7 @@
     <div class="mobile-menu" id="mobile-menu" hidden>
       <nav aria-label="Mobile">
         <a href="index.html#videos">Videos</a>
+        <a href="index.html#services">Services</a>
         <a href="index.html#about">About</a>
         <a href="index.html#contact">Contact</a>
         <a href="https://github.com/vuranimation767-byte" data-site-href="github" target="_blank" rel="noopener">GitHub ↗</a>
@@ -64,40 +66,93 @@
   </header>
 
   <main class="legal" id="main-content">
-    <h1>Privacy &amp; terms</h1>
-    <p class="updated">Last updated 25 October 2026</p>
+    <h1>Terms &amp; privacy</h1>
+    <p class="updated">Last updated 27 October 2026</p>
 
     <article class="prose">
-      <p>This is a personal portfolio for Block Builder, a solo Minecraft plugin developer. It is a static site: there are no accounts, no comments, no analytics and no advertising.</p>
+      <p>This page explains the terms that apply when you use this website, and what happens to information when you visit it. It covers this site only. Plugin repositories, downloads and commissioned work may carry their own terms, noted where relevant.</p>
 
-      <h2>Hosting</h2>
-      <p>The site is served by GitHub Pages. GitHub may process standard request data — such as your IP address, browser and the pages you request — to deliver the site and keep it secure. That processing is covered by the
-        <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">GitHub Privacy Statement</a>.</p>
+      <h2>Terms of use</h2>
 
-      <h2>What this site stores</h2>
-      <p>The only thing stored in your browser is your light or dark theme choice, kept in <code>localStorage</code> under the key <code>theme</code>. It never leaves your device, and clearing site data removes it.</p>
-      <p>The admin editor at <code>admin.html</code> is a separate tool for the site owner. Drafts and publish settings it saves stay in that browser; they are not part of the public site.</p>
+      <h3>1. Who this site belongs to</h3>
+      <p>This is the portfolio of Block Builder (“I”, “me”), an independent Minecraft plugin developer. It is not a company, and nothing is sold directly through this site.</p>
 
-      <h2>Videos</h2>
-      <p>Demo videos are hosted on YouTube. Nothing is requested from YouTube until you press play on a video. When you do, the video loads from <code>youtube-nocookie.com</code>, and YouTube (Google) may receive your IP address and set cookies or similar storage under its own policies. The
-        <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Privacy Policy</a> applies from that point. “Open on YouTube” links also take you to YouTube.</p>
+      <h3>2. Using the site</h3>
+      <p>You may browse, link to and share this site. You may not use it in a way that breaks the law, interferes with the site or its host, attempts unauthorised access, or presents the site or its content as your own. Automated scraping is not permitted beyond ordinary search-engine indexing.</p>
 
-      <h2>Downloads</h2>
-      <p>Plugin files are hosted on GitHub Releases. Downloading one takes you to GitHub, where the
-        <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">GitHub Privacy Statement</a> and GitHub’s terms apply. Any licence included in the plugin’s repository also applies.</p>
+      <h3>3. Content and ownership</h3>
+      <p>The text, layout, images and code on this site belong to Block Builder unless stated otherwise. Plugin source code, releases and documentation remain subject to the licence included in each repository; where a repository has its own licence, that licence governs use of that code.</p>
+      <p>You may quote short passages with a link back to this site. You may not republish the site or its content wholesale, or use it to advertise a competing service, without written permission.</p>
 
-      <h2>Using the plugins</h2>
-      <p>Plugins are provided as-is, without warranty. Back up your server and its data before installing or updating anything. You are responsible for testing a plugin on your own server and for how it is configured.</p>
+      <h3>4. Videos and third-party links</h3>
+      <p>Demo videos are hosted on YouTube and embedded here using YouTube’s privacy-enhanced mode. Playback is subject to YouTube’s terms and Google’s privacy policy. Links to GitHub, Discord, YouTube and other sites take you outside this site; I do not control those services and their own terms apply.</p>
 
-      <h2>Content and trademarks</h2>
-      <p>Plugin names, code and site content belong to Block Builder unless a repository says otherwise. Minecraft is a trademark of Mojang Studios. This site is an unofficial portfolio and is not affiliated with, endorsed by or sponsored by Mojang Studios or Microsoft.</p>
+      <h3>5. Plugin downloads</h3>
+      <p>Plugins are published through GitHub and GitHub Releases and are provided as-is. Back up your server and its data before installing or updating anything, test on a staging server first, and check that a release supports your server version. Licence, warranty and support terms come from the repository or release notes, not from this page.</p>
 
-      <h2>Changes</h2>
-      <p>These terms may be updated as the site changes. The date at the top shows the latest revision.</p>
+      <h3>6. Commissions and custom work</h3>
+      <p>Messages about commissioned work are an invitation to talk, not a contract. A commission exists only once we agree the scope, price, timeline and licence in writing — for example in a Discord conversation or a repository agreement. Nothing on this site is an offer capable of acceptance, a quote, or a promise that I will take on a project.</p>
+      <p>Unless we agree otherwise in writing, I retain copyright in commissioned code and grant the commissioning server a non-exclusive licence to use and modify it on its own servers. Please do not redistribute commissioned work without permission.</p>
 
-      <h2>Contact</h2>
-      <p>Questions about privacy or these terms? Reach me on
-        <a href="https://github.com/vuranimation767-byte" data-site-href="github" target="_blank" rel="noopener">GitHub</a>.</p>
+      <h3>7. Availability</h3>
+      <p>I aim to keep the site accurate and online, but I do not promise uninterrupted access. Content may change, and projects or videos may be added or removed without notice.</p>
+
+      <h3>8. Disclaimer</h3>
+      <p>The site and its content are provided “as is” and “as available”, without warranties of any kind, express or implied, including fitness for a particular purpose. Nothing here is professional advice of any kind.</p>
+
+      <h3>9. Limitation of liability</h3>
+      <p>To the extent the law allows, I am not liable for indirect, incidental, special or consequential losses, loss of data, loss of profit or server downtime arising from use of this site, its content or downloaded plugins. Where liability cannot be excluded, it is limited to the amount you paid for the relevant item — which, for the free content on this site, is zero. Nothing in these terms limits rights you have under mandatory law, including consumer rights.</p>
+
+      <h3>10. Changes</h3>
+      <p>These terms may be updated when the site or the law changes. The date at the top of the page shows the latest revision, and continuing to use the site after a change means you accept the updated terms.</p>
+
+      <h3>11. Governing law and disputes</h3>
+      <p>These terms are governed by the law that applies where the site operator is established, without regard to conflict-of-law rules. If you are a consumer, this does not take away the mandatory protections of the law in your country of residence. Before starting formal proceedings, please raise the issue with me through the contact methods below so we can try to resolve it directly.</p>
+
+      <h3>12. Contact</h3>
+      <p>Questions about these terms: <a href="https://github.com/vuranimation767-byte" data-site-href="github" target="_blank" rel="noopener">GitHub</a> or <a href="https://discord.com/users/1489246754229588059" target="_blank" rel="noopener">Discord</a>.</p>
+
+      <h2>Privacy policy</h2>
+
+      <h3>What this site is</h3>
+      <p>A static portfolio hosted on GitHub Pages. There are no accounts, no sign-up forms, no advertising, no analytics and no payments on this site.</p>
+
+      <h3>Who is responsible</h3>
+      <p>Block Builder, the site operator, is responsible for the limited processing described below. You can reach me through the GitHub or Discord links on this page.</p>
+
+      <h3>What is processed, and why</h3>
+      <ul>
+        <li><strong>Hosting.</strong> GitHub Pages records standard request data — such as your IP address, browser, the page requested and the time — to deliver the site and protect it from abuse. This is handled by GitHub under the <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">GitHub Privacy Statement</a>.</li>
+        <li><strong>Theme preference.</strong> Your light or dark choice is stored in your browser’s <code>localStorage</code> under the key <code>theme</code>. It never leaves your device and clearing site data removes it.</li>
+        <li><strong>Videos.</strong> Nothing is requested from YouTube until you press play. When you do, the player loads from <code>youtube-nocookie.com</code> and Google may receive your IP address and device information and may set cookies or similar storage. The <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Privacy Policy</a> applies from that point.</li>
+        <li><strong>External links.</strong> GitHub, Discord and YouTube links only connect to those services when you follow them.</li>
+        <li><strong>The admin editor.</strong> <code>admin.html</code> is used only by the site owner. Drafts and unlock state are kept in that browser’s storage and are not part of the public site.</li>
+        <li><strong>View counts and comments.</strong> Both are currently switched off for this site. If either is enabled later, this policy will be updated before it goes live.</li>
+      </ul>
+
+      <h3>Cookies</h3>
+      <p>This site does not set cookies of its own. After you press play, YouTube may set or read cookies and storage inside its embed; those are controlled by Google, not by this site.</p>
+
+      <h3>Who else may receive data</h3>
+      <p>GitHub (Microsoft) for hosting, and Google (YouTube) for video playback. If you contact me, GitHub or Discord will process that conversation. Each provider processes data under its own privacy policy. Some providers are based outside your country, including in the United States, and rely on their own transfer safeguards.</p>
+
+      <h3>How long it is kept</h3>
+      <p>Your theme preference stays until you clear it. Hosting logs are kept according to GitHub’s retention rules. Video data is controlled by Google. Messages are kept only as long as needed to answer them.</p>
+
+      <h3>Your rights</h3>
+      <p>Depending on where you live, you may ask to access, correct, delete or restrict processing of your personal data, object to processing, request portability, or withdraw consent. Because this site stores almost nothing beyond your theme choice, the quickest route is usually to clear site data in your browser. For anything else, contact me and I will respond within the time the law requires. You also have the right to complain to your local data protection authority.</p>
+
+      <h3>Children</h3>
+      <p>This site is aimed at a general audience interested in Minecraft server development. It is not directed at children under 13, and I do not knowingly collect information from them.</p>
+
+      <h3>Security</h3>
+      <p>The site is served over HTTPS. No system is perfectly secure, so please do not send sensitive personal information through Discord or GitHub messages.</p>
+
+      <h3>Minecraft notice</h3>
+      <p>Minecraft is a trademark of Mojang Studios. This is an unofficial portfolio and is not affiliated with, endorsed by or sponsored by Mojang Studios or Microsoft.</p>
+
+      <h3>Changes to this policy</h3>
+      <p>If what the site collects changes, this page will be updated first, with a new date at the top.</p>
     </article>
   </main>
 
@@ -105,10 +160,11 @@
     <div class="wrap footer-main">
       <p class="footer-brand">
         <span data-site="name">Block Builder</span>
-        <span>Minecraft plugins, built block by block.</span>
+        <span>Custom Minecraft plugins, built block by block.</span>
       </p>
       <nav class="footer-links" aria-label="Footer">
         <a href="index.html#videos">Videos</a>
+        <a href="index.html#services">Services</a>
         <a href="index.html#about">About</a>
         <a href="index.html#contact">Contact</a>
         <a href="https://github.com/vuranimation767-byte" data-site-href="github" target="_blank" rel="noopener">GitHub</a>
